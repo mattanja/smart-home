@@ -1,0 +1,7 @@
+archive/*
+grafana/*
+home-assistant/*
+influxdb/*
+iobroker/*
+mosquitto/*
+.env

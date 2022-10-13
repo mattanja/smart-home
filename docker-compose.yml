@@ -1,0 +1,112 @@
+###
+# Full installation of Home-Automation with the following components:
+# - Home-Assistant (https://www.home-assistant.io/) to view and control all devices
+# - ioBroker (https://www.iobroker.net/) to automate some additional devices and to broker data from Cloud services into Mosquitto and Home-Assistant
+# - Mosquitto (https://mosquitto.org/) as MQTT broker
+# - Node-Red (https://nodered.org/) to create flows
+# - InfluxDB (https://www.influxdata.com/) to store data
+# - Telegraf (https://www.influxdata.com/time-series-platform/telegraf/) to collect data into InfluxDB
+# - Grafana (https://grafana.com/) to visualize data
+
+version: '3'
+
+networks:
+  default:
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    restart: always
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    environment:
+      - TZ=${TIMEZONE}
+
+  mosquitto-management-center:
+    image: cedalo/management-center:2
+    container_name: mosquitto-management-center
+    ports: 
+      - 8088:8088
+    environment:
+      - CEDALO_MC_BROKER_ID=mosquitto
+      - CEDALO_MC_BROKER_NAME=Mosquitto
+      - CEDALO_MC_BROKER_URL=mqtt://mosquitto:1883
+      - CEDALO_MC_BROKER_USERNAME=${MOSQUITTO_ADMIN}
+      - CEDALO_MC_BROKER_PASSWORD=${MOSQUITTO_ADMIN_PASSWORD}
+      - CEDALO_MC_USERNAME=${CEDALO_MC_USERNAME}
+      - CEDALO_MC_PASSWORD=${CEDALO_MC_PASSWORD}
+
+  influxdb:
+    image: influxdb:2.4
+    container_name: influxdb
+    volumes:
+      - ./influxdb:/var/lib/influxdb2:rw
+    ports:
+      - "8086:8086"
+
+  telegraf:
+    image: telegraf:1.24.2
+    container_name: telegraf
+    links:
+      - influxdb
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+    environment:
+      - INFLUX_TOKEN=${INFLUX_TOKEN}
+      - MQTT_TELEGRAF_CLIENTID=${MQTT_TELEGRAF_CLIENTID}
+      - MQTT_TELEGRAF_USERNAME=${MQTT_TELEGRAF_USERNAME}
+      - MQTT_TELEGRAF_PASSWORD=${MQTT_TELEGRAF_PASSWORD}
+
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:2022.11.0.dev20221011
+    container_name: homeassistant
+    restart: always
+    privileged: true
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./home-assistant:/config
+    environment:
+      - TZ=Europe/Berlin
+
+  iobroker:
+    image: iobroker/iobroker:latest
+    container_name: iobroker
+    restart: always
+    hostname: iobroker
+    environment:
+      # Set port of webinterface to 8091 (default is 8081 but this is already used by the QNAP Container Station)
+      - IOB_ADMINPORT=8091
+    ports:
+      - "8091:8091"
+      - "1880:1880"
+    volumes:
+      - ./iobroker:/opt/iobroker
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - ./grafana:/var/lib/grafana:rw
+    ports:
+      - "3000:3000"
+
+  # loki:
+  #   image: grafana/loki:2.5.0
+  #   container_name: loki
+  #   ports:
+  #     - "3100:3100"
+  #   command: -config.file=/etc/loki/local-config.yaml
+
+  # promtail:
+  #   image: grafana/promtail:2.5.0
+  #   container_name: promtail
+  #   volumes:
+  #     - /var/log:/var/log
+  #   command: -config.file=/etc/promtail/config.yml
