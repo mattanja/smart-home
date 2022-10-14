@@ -90,12 +90,14 @@ services:
       - ./iobroker:/opt/iobroker
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana-oss:9.2.0
     container_name: grafana
     volumes:
       - ./grafana:/var/lib/grafana:rw
     ports:
       - "3000:3000"
+    environment:
+      - GF_PATHS_CONFIG=/var/lib/grafana/grafana.ini
 
   # loki:
   #   image: grafana/loki:2.5.0
