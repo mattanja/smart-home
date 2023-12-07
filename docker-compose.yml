@@ -15,7 +15,7 @@ networks:
 
 services:
   mosquitto:
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
     container_name: mosquitto
     restart: always
     ports:
@@ -29,7 +29,7 @@ services:
       - TZ=${TIMEZONE}
 
   mosquitto-management-center:
-    image: cedalo/management-center:2
+    image: cedalo/management-center:dev
     container_name: mosquitto-management-center
     restart: always
     ports: 
@@ -67,11 +67,12 @@ services:
       - MQTT_TELEGRAF_PASSWORD=${MQTT_TELEGRAF_PASSWORD}
 
   homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:2022.11.0.dev20221011
+    image: ghcr.io/home-assistant/home-assistant:stable
     container_name: homeassistant
     restart: always
     privileged: true
     ports:
+      - "5683:5683"
       - "8123:8123"
     volumes:
       - ./home-assistant:/config

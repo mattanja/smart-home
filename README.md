@@ -16,3 +16,13 @@ Full docker-compose installation of Home-Automation with the following component
 * Start all containers: `docker-compose up -d`
 * The initialization of Home-Assistant, ioBroker, InfluxDB and Grafana will require additional manual steps, tbd.
 
+## Shelly devices
+
+MQTT settings for Shelly devices:
+
+corenetstorage:1883
+192.168.57.2:1883
+MQTT prefix (Beispiel): shellies/shelly-steckdose-01
+
+User + Passwort siehe _secret/*
+

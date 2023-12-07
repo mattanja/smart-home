@@ -5,3 +5,5 @@ influxdb/*
 iobroker/*
 mosquitto/*
 .env
+.DS_Store
+_secret/
