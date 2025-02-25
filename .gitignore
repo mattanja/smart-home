@@ -1,6 +1,7 @@
 archive/*
 grafana/*
 home-assistant/*
+!home-assistant/*.yaml
 influxdb/*
 iobroker/*
 mosquitto/*

@@ -44,7 +44,7 @@ services:
       - CEDALO_MC_PASSWORD=${CEDALO_MC_PASSWORD}
 
   influxdb:
-    image: influxdb:2.4
+    image: influxdb:latest
     container_name: influxdb
     restart: always
     volumes:
@@ -53,7 +53,7 @@ services:
       - "8086:8086"
 
   telegraf:
-    image: telegraf:1.24.2
+    image: telegraf:latest
     container_name: telegraf
     restart: always
     links:

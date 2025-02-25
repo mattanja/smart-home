@@ -1,0 +1,67 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+mqtt: !include mqtt.yaml
+
+# Documentation: https://www.home-assistant.io/integrations/http/
+#http:
+#  server_port: 80
+http:
+  #server_port: 443
+  server_port: 8123
+  ssl_certificate: /config/letsencrypt/live/home-assistant.kernetics.de/fullchain.pem
+  ssl_key: /config/letsencrypt/live/home-assistant.kernetics.de/privkey.pem
+  #cors_allowed_origins:
+  #  - https://google.com
+  #  - https://www.home-assistant.io
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 46.4.77.5
+    - 188.245.108.134
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
+# 2022-01-05 Followed description
+# https://www.home-assistant.io/integrations/google_assistant/#yaml-configuration
+# Google console project https://console.actions.google.com/project/home-assistant-efc0c/actions/smarthome/
+google_assistant:
+  project_id: home-assistant-efc0c
+  service_account: !include home-assistant-efc0c-8a9e60136c4e.json
+  report_state: true
+  exposed_domains:
+    - switch
+    - light
+  entity_config:
+    switch.kitchen:
+      name: CUSTOM_NAME_FOR_GOOGLE_ASSISTANT
+      aliases:
+        - BRIGHT_LIGHTS
+        - ENTRY_LIGHTS
+    light.living_room:
+      expose: false
+      room: LIVING_ROOM
+
+# Alexa Integration following these instructions:
+# https://www.home-assistant.io/integrations/alexa.smart_home/#create-an-amazon-alexa-smart-home-skill
+# Related lambda function (Region eu-west-1, Europe Ireland), note Configuration -> Environment variables
+# https://eu-west-1.console.aws.amazon.com/lambda/home?region=eu-west-1#/functions/alexa-home-assistant-lambda?tab=code (Account mattanja@kern.services AWS account)
+# Alexa skill:
+# https://developer.amazon.com/alexa/console/ask (Account m@mattanjakern.de / amazon.de)
+alexa:
+  smart_home:
+
+# See https://www.home-assistant.io/integrations/zha/
+# git clone https://github.com/zigpy/zha-device-handlers.git
+
+zha:
+  enable_quirks: true
+  custom_quirks_path: /config/zhaquirks/

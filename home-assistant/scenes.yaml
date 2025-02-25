@@ -1,0 +1,348 @@
+- id: '1731615584787'
+  name: Jara Room Blue
+  entities:
+    update.jara_leds_firmware:
+      auto_update: false
+      display_precision: 0
+      installed_version: '0x00000001'
+      in_progress: false
+      latest_version:
+      release_summary:
+      release_url:
+      skipped_version:
+      title:
+      update_percentage:
+      device_class: firmware
+      entity_picture: https://brands.home-assistant.io/_/zha/icon.png
+      friendly_name: Jara LEDs Firmware
+      supported_features: 23
+      state: unknown
+    button.jara_leds_identify:
+      device_class: identify
+      friendly_name: Jara LEDs Identify
+      state: unknown
+    light.jara_leds_light:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 254
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 206.25
+      - 69.02
+      rgb_color:
+      - 79
+      - 178
+      - 255
+      xy_color:
+      - 0.168
+      - 0.218
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Jara LEDs Light
+      supported_features: 44
+      state: 'on'
+    number.jara_leds_on_off_transition_time:
+      min: 0
+      max: 65535
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs On/Off transition time
+      state: '2'
+    select.jara_leds_start_up_behavior:
+      options:
+      - 'Off'
+      - 'On'
+      - Toggle
+      - PreviousValue
+      friendly_name: Jara LEDs Start-up behavior
+      state: 'On'
+    number.jara_leds_start_up_color_temperature:
+      min: 153
+      max: 370
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs Start-up color temperature
+      state: '370'
+    number.jara_leds_start_up_current_level:
+      min: 0
+      max: 255
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs Start-up current level
+      state: '255'
+    light.jara_decke_light:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 254
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 219.048
+      - 49.412
+      rgb_color:
+      - 129
+      - 173
+      - 255
+      xy_color:
+      - 0.208
+      - 0.217
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Jara Decke Light
+      supported_features: 44
+      state: 'on'
+  icon: mdi:teddy-bear
+  metadata: {}
+- id: '1731615787346'
+  name: Jara Room Red
+  entities:
+    update.jara_leds_firmware:
+      auto_update: false
+      display_precision: 0
+      installed_version: '0x00000001'
+      in_progress: false
+      latest_version:
+      release_summary:
+      release_url:
+      skipped_version:
+      title:
+      update_percentage:
+      device_class: firmware
+      entity_picture: https://brands.home-assistant.io/_/zha/icon.png
+      friendly_name: Jara LEDs Firmware
+      supported_features: 23
+      state: unknown
+    button.jara_leds_identify:
+      device_class: identify
+      friendly_name: Jara LEDs Identify
+      state: unknown
+    light.jara_leds_light:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 254
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 0
+      - 76.078
+      rgb_color:
+      - 255
+      - 61
+      - 61
+      xy_color:
+      - 0.654
+      - 0.303
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Jara LEDs Light
+      supported_features: 44
+      state: 'on'
+    number.jara_leds_on_off_transition_time:
+      min: 0
+      max: 65535
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs On/Off transition time
+      state: '2'
+    select.jara_leds_start_up_behavior:
+      options:
+      - 'Off'
+      - 'On'
+      - Toggle
+      - PreviousValue
+      friendly_name: Jara LEDs Start-up behavior
+      state: 'On'
+    number.jara_leds_start_up_color_temperature:
+      min: 153
+      max: 370
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs Start-up color temperature
+      state: '370'
+    number.jara_leds_start_up_current_level:
+      min: 0
+      max: 255
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs Start-up current level
+      state: '255'
+    light.jara_decke_light:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 254
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 359.42
+      - 81.176
+      rgb_color:
+      - 255
+      - 48
+      - 50
+      xy_color:
+      - 0.67
+      - 0.301
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Jara Decke Light
+      supported_features: 44
+      state: 'on'
+  icon: mdi:teddy-bear
+  metadata: {}
+- id: '1731616584769'
+  name: Jara Room White
+  entities:
+    update.jara_leds_firmware:
+      auto_update: false
+      display_precision: 0
+      installed_version: '0x00000001'
+      in_progress: false
+      latest_version:
+      release_summary:
+      release_url:
+      skipped_version:
+      title:
+      update_percentage:
+      device_class: firmware
+      entity_picture: https://brands.home-assistant.io/_/zha/icon.png
+      friendly_name: Jara LEDs Firmware
+      supported_features: 23
+      state: unknown
+    button.jara_leds_identify:
+      device_class: identify
+      friendly_name: Jara LEDs Identify
+      state: unknown
+    light.jara_leds_light:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 3984
+      color_temp: 251
+      hs_color:
+      - 26.819
+      - 35.161
+      rgb_color:
+      - 255
+      - 205
+      - 165
+      xy_color:
+      - 0.421
+      - 0.365
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Jara LEDs Light
+      supported_features: 44
+      state: 'on'
+    number.jara_leds_on_off_transition_time:
+      min: 0
+      max: 65535
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs On/Off transition time
+      state: '2'
+    select.jara_leds_start_up_behavior:
+      options:
+      - 'Off'
+      - 'On'
+      - Toggle
+      - PreviousValue
+      friendly_name: Jara LEDs Start-up behavior
+      state: 'On'
+    number.jara_leds_start_up_color_temperature:
+      min: 153
+      max: 370
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs Start-up color temperature
+      state: '370'
+    number.jara_leds_start_up_current_level:
+      min: 0
+      max: 255
+      step: 1
+      mode: auto
+      friendly_name: Jara LEDs Start-up current level
+      state: '255'
+    light.jara_decke_light:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 3649
+      color_temp: 274
+      hs_color:
+      - 27.037
+      - 41.629
+      rgb_color:
+      - 255
+      - 196
+      - 148
+      xy_color:
+      - 0.444
+      - 0.371
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Jara Decke Light
+      supported_features: 44
+      state: 'on'
+  icon: mdi:teddy-bear
+  metadata: {}

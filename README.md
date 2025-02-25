@@ -4,6 +4,7 @@ Full docker-compose installation of Home-Automation with the following component
 
 * Home-Assistant (https://www.home-assistant.io/) to view and control all devices
 * ioBroker (https://www.iobroker.net/) to automate some additional devices and to broker data from Cloud services into Mosquitto and Home-Assistant
+    * The main usage of ioBroker is the Fiat 500e integration using Easee, Tibber and Fiat APIs
 * Mosquitto (https://mosquitto.org/) as MQTT broker
 * InfluxDB (https://www.influxdata.com/) to store data
 * Telegraf (https://www.influxdata.com/time-series-platform/telegraf/) to collect data into InfluxDB

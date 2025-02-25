@@ -1,0 +1,113 @@
+- id: '1700759472567'
+  alias: Weihnachtsbeleuchtung ausschalten um 23 Uhr
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 958694514d160472bd44c70c28b7fc6f
+    entity_id: switch.steckdose_licht_wohnzimmer_switch
+    domain: switch
+  mode: single
+- id: '1701164836169'
+  alias: Jara dimmen-
+  description: ''
+  triggers:
+  - device_id: d3706dc1e9a2066f2d5860aaf359677e
+    domain: zha
+    type: remote_button_long_press
+    subtype: button_2
+    trigger: device
+  conditions: []
+  actions:
+  - device_id: 364f2fe3497941b4cfa37d4ec11a69c4
+    domain: light
+    entity_id: 1a0aeff8a7bb6ceb1720e0de638779fc
+    type: brightness_decrease
+  mode: single
+- id: '1731615061986'
+  alias: Jara on (white)
+  description: ''
+  triggers:
+  - device_id: d3706dc1e9a2066f2d5860aaf359677e
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_1
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.jara_room_white
+  mode: single
+- id: '1731615202968'
+  alias: Jara dimmen+
+  description: ''
+  triggers:
+  - device_id: d3706dc1e9a2066f2d5860aaf359677e
+    domain: zha
+    type: remote_button_long_press
+    subtype: button_1
+    trigger: device
+  conditions: []
+  actions:
+  - device_id: 364f2fe3497941b4cfa37d4ec11a69c4
+    domain: light
+    entity_id: 1a0aeff8a7bb6ceb1720e0de638779fc
+    type: brightness_increase
+  mode: single
+- id: '1731615268732'
+  alias: Jara off
+  description: ''
+  triggers:
+  - device_id: d3706dc1e9a2066f2d5860aaf359677e
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_2
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 364f2fe3497941b4cfa37d4ec11a69c4
+    entity_id: 1a0aeff8a7bb6ceb1720e0de638779fc
+    domain: light
+  - type: turn_off
+    device_id: 2720978bacd6548504053b67bcfbb09e
+    entity_id: 4af1e03d2d24dfec5b4c1a726b647d96
+    domain: light
+  mode: single
+- id: '1731615414331'
+  alias: Jara colors
+  description: ''
+  triggers:
+  - device_id: d3706dc1e9a2066f2d5860aaf359677e
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_3
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.jara_room_blue
+  mode: single
+- id: '1731615880659'
+  alias: Jara Schalter RED
+  description: ''
+  triggers:
+  - device_id: d3706dc1e9a2066f2d5860aaf359677e
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_4
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.jara_red
+  mode: single

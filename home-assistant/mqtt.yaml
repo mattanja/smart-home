@@ -1,0 +1,523 @@
+# Shelly Gen 1
+# https://shelly-api-docs.shelly.cloud/gen1/#shelly1-1pm-mqtt
+# shellies/Garten-1PM/relay/0/command on
+# shellies/Garten-1PM/relay/0/command off
+# Devices:
+# shellies/Garten-1PM
+# shellies/EG-Power
+# shellies/OG-Power
+# shellies/PV-Mini
+# PV-Mini OG-Photovoltaik
+# shellies/OG-TV-1PM
+# shellies/OG-Office-1PM (Jara Wand)
+# shellies/House-Power (3EM)
+
+
+# Shelly Gen 2
+# https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Mqtt/#mqtt-control
+# Devices:
+# shellies/shelly-steckdose-01
+# shellies/shelly-steckdose-02
+
+- switch:
+    unique_id: og_tv_switch
+    name: "OG TV Schalter"
+    state_topic: shellies/OG-TV-1PM/relay/0
+    state_on: "on"
+    state_off: "off"
+    command_topic: shellies/OG-TV-1PM/relay/0/command
+    payload_on: "on"
+    payload_off: "off"
+    optimistic: true
+    qos: 0
+    retain: true
+    device:
+      name: "OG TV"
+      identifiers:
+        - og_tv_switch
+      manufacturer: Shelly
+      model: 1PM
+      suggested_area: "Living Room"
+- sensor:
+    unique_id: og_tv_power
+    name: "OG TV Power"
+    state_topic: shellies/OG-TV-1PM/emeter/0/power
+- sensor:
+    unique_id: og_tv_external_temperature
+    name: "OG TV External Temperature"
+    state_topic: shellies/OG-TV-1PM/ext_temperature/0
+    device_class: temperature
+    unit_of_measurement: °C
+    state_class: measurement
+    device:
+      name: "OG TV Temperature"
+      identifiers:
+        - og_tv_temperature
+
+
+# Shelly EM3 shellies/House-Power/ (Power, Voltage, Current in 3 phases)
+## Phase 0
+- sensor:
+    unique_id: house_power_phase0_power
+    name: "House Power Phase 0 Power"
+    state_topic: shellies/House-Power/emeter/0/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      manufacturer: Shelly
+      model: EM3
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase0_voltage
+    name: "House Power Phase 0 Voltage"
+    state_topic: shellies/House-Power/emeter/0/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase0_current
+    name: "House Power Phase 0 Current"
+    state_topic: shellies/House-Power/emeter/0/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase0_energy_total
+    name: "House Power Phase 0 Energy"
+    state_topic: shellies/House-Power/emeter/0/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+## Phase 1
+- sensor:
+    unique_id: house_power_phase1_power
+    name: "House Power Phase 1 Power"
+    state_topic: shellies/House-Power/emeter/1/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase1_voltage
+    name: "House Power Phase 1 Voltage"
+    state_topic: shellies/House-Power/emeter/1/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase1_current
+    name: "House Power Phase 1 Current"
+    state_topic: shellies/House-Power/emeter/1/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase1_energy_total
+    name: "House Power Phase 1 Energy"
+    state_topic: shellies/House-Power/emeter/1/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+## Phase 2
+- sensor:
+    unique_id: house_power_phase2_power
+    name: "House Power Phase 2 Power"
+    state_topic: shellies/House-Power/emeter/2/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase2_voltage
+    name: "House Power Phase 2 Voltage"
+    state_topic: shellies/House-Power/emeter/2/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase2_current
+    name: "House Power Phase 2 Current"
+    state_topic: shellies/House-Power/emeter/2/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+- sensor:
+    unique_id: house_power_phase2_energy_total
+    name: "House Power Phase 2 Energy"
+    state_topic: shellies/House-Power/emeter/2/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      name: "House Power Meter"
+      identifiers:
+        - house_power_meter
+
+# Shelly EM3 shellies/EG-Power/ (Power, Voltage, Current in 3 phases)
+## Phase 0
+- sensor:
+    unique_id: eg_power_phase0_power
+    name: "EG Power Phase 0 Power"
+    state_topic: shellies/EG-Power/emeter/0/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+      name: "EG Power Meter"
+      manufacturer: Shelly
+      model: EM3
+- sensor:
+    unique_id: eg_power_phase0_voltage
+    name: "EG Power Phase 0 Voltage"
+    state_topic: shellies/EG-Power/emeter/0/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+- sensor:
+    unique_id: eg_power_phase0_current
+    name: "EG Power Phase 0 Current"
+    state_topic: shellies/EG-Power/emeter/0/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+- sensor:
+    unique_id: eg_power_phase0_energy_total
+    name: "EG Power Phase 0 Energy"
+    state_topic: shellies/EG-Power/emeter/0/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - eg_power_meter
+## Phase 1
+- sensor:
+    unique_id: eg_power_phase1_power
+    name: "EG Power Phase 1 Power"
+    state_topic: shellies/EG-Power/emeter/1/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+- sensor:
+    unique_id: eg_power_phase1_voltage
+    name: "EG Power Phase 1 Voltage"
+    state_topic: shellies/EG-Power/emeter/1/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+- sensor:
+    unique_id: eg_power_phase1_current
+    name: "EG Power Phase 1 Current"
+    state_topic: shellies/EG-Power/emeter/1/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+- sensor:
+    unique_id: eg_power_phase1_energy_total
+    name: "EG Power Phase 1 Energy"
+    state_topic: shellies/EG-Power/emeter/1/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - eg_power_meter
+## Phase 2
+- sensor:
+    unique_id: eg_power_phase2_power
+    name: "EG Power Phase 2 Power"
+    state_topic: shellies/EG-Power/emeter/2/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+- sensor:
+    unique_id: eg_power_phase2_voltage
+    name: "EG Power Phase 2 Voltage"
+    state_topic: shellies/EG-Power/emeter/2/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+- sensor:
+    unique_id: eg_power_phase2_current
+    name: "EG Power Phase 2 Current"
+    state_topic: shellies/EG-Power/emeter/2/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      identifiers:
+        - eg_power_meter
+- sensor:
+    unique_id: eg_power_phase2_energy_total
+    name: "EG Power Phase 2 Energy"
+    state_topic: shellies/EG-Power/emeter/2/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - eg_power_meter
+
+# Shelly EM3 shellies/OG-Power/ (Power, Voltage, Current in 3 phases)
+## Phase 0
+- sensor:
+    unique_id: og_power_phase0_power
+    name: "OG Power Phase 0 Power"
+    state_topic: shellies/OG-Power/emeter/0/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+      name: "OG Power Meter"
+      manufacturer: Shelly
+      model: EM3
+- sensor:
+    unique_id: og_power_phase0_voltage
+    name: "OG Power Phase 0 Voltage"
+    state_topic: shellies/OG-Power/emeter/0/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+- sensor:
+    unique_id: og_power_phase0_current
+    name: "OG Power Phase 0 Current"
+    state_topic: shellies/OG-Power/emeter/0/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+- sensor:
+    unique_id: og_power_phase0_energy_total
+    name: "OG Power Phase 0 Energy"
+    state_topic: shellies/OG-Power/emeter/0/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - og_power_meter
+## Phase 1
+- sensor:
+    unique_id: og_power_phase1_power
+    name: "OG Power Phase 1 Power"
+    state_topic: shellies/OG-Power/emeter/1/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+- sensor:
+    unique_id: og_power_phase1_voltage
+    name: "OG Power Phase 1 Voltage"
+    state_topic: shellies/OG-Power/emeter/1/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+- sensor:
+    unique_id: og_power_phase1_current
+    name: "OG Power Phase 1 Current"
+    state_topic: shellies/OG-Power/emeter/1/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+- sensor:
+    unique_id: og_power_phase1_energy_total
+    name: "OG Power Phase 1 Energy"
+    state_topic: shellies/OG-Power/emeter/1/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - og_power_meter
+## Phase 2
+- sensor:
+    unique_id: og_power_phase2_power
+    name: "OG Power Phase 2 Power"
+    state_topic: shellies/OG-Power/emeter/2/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+- sensor:
+    unique_id: og_power_phase2_voltage
+    name: "OG Power Phase 2 Voltage"
+    state_topic: shellies/OG-Power/emeter/2/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+- sensor:
+    unique_id: og_power_phase2_current
+    name: "OG Power Phase 2 Current"
+    state_topic: shellies/OG-Power/emeter/2/current
+    device_class: current
+    unit_of_measurement: A
+    state_class: measurement
+    device:
+      identifiers:
+        - og_power_meter
+- sensor:
+    unique_id: og_power_phase2_energy_total
+    name: "OG Power Phase 2 Energy"
+    state_topic: shellies/OG-Power/emeter/2/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - og_power_meter
+# The PV goes into phase 2 of the OG-Power, so we have a total_returned value here
+- sensor:
+    unique_id: og_power_phase2_energy_total_returned
+    name: "OG Power Phase 2 Energy Total Returned"
+    state_topic: shellies/OG-Power/emeter/2/total_returned
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - og_power_meter
+
+# Shelly EM1 PV-Mini shellies/PV-Mini/ (Power, Voltage, Current in 1 phase)
+- sensor:
+    unique_id: pv_mini_power_meter_power
+    name: "PV Mini Power Meter Power"
+    state_topic: shellies/PV-Mini/emeter/0/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      name: "PV Mini Power Meter"
+      identifiers:
+        - pv_mini_power_meter
+      manufacturer: Shelly
+      model: EM1
+- sensor:
+    unique_id: pv_mini_power_meter_voltage
+    name: "PV Mini Power Meter Voltage"
+    state_topic: shellies/PV-Mini/emeter/0/voltage
+    device_class: voltage
+    unit_of_measurement: V
+    state_class: measurement
+    device:
+      identifiers:
+        - pv_mini_power_meter
+- sensor:
+    unique_id: pv_mini_power_meter_total
+    name: "PV Mini Power Meter Total"
+    state_topic: shellies/PV-Mini/emeter/0/total
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - pv_mini_power_meter
+- sensor:
+    unique_id: pv_mini_power_meter_total_returned
+    name: "PV Mini Power Meter Total Returned"
+    state_topic: shellies/PV-Mini/emeter/0/total_returned
+    device_class: energy
+    unit_of_measurement: Wh
+    state_class: total_increasing
+    device:
+      identifiers:
+        - pv_mini_power_meter
+
+# Shelly Plus 1PM shellies/warmwasser
+- sensor:
+    unique_id: warmwasser_zirkulation_switch
+    name: "Warmwasser Zirkulation"
+    state_topic: shellies/warmwasser/status/switch/0
+    state_on: "on"
+    state_off: "off"
+    payload_on: "on,1200" # turn off after 1200 seconds
+    payload_off: "off"
+    device:
+      name: "Warmwasser Zirkulation"
+      identifiers:
+        - warmwasser_zirkulation
+      manufacturer: Shelly
+      model: Plus 1PM
