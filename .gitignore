@@ -8,3 +8,4 @@ mosquitto/*
 .env
 .DS_Store
 _secret/
+telegraf/outdata/metrics.out
