@@ -19,6 +19,40 @@
 # shellies/shelly-steckdose-01
 # shellies/shelly-steckdose-02
 
+# Shelly 1PM shellies/Garten-1PM/ (Power, Voltage, Current in 1 phase)
+- switch:
+    unique_id: garten_pv_switch
+    name: "Garten und PV"
+    state_topic: shellies/Garten-1PM/relay/0
+    state_on: "on"
+    state_off: "off"
+    command_topic: shellies/Garten-1PM/relay/0/command
+    payload_on: "on"
+    payload_off: "off"
+    optimistic: true
+    qos: 0
+    retain: true
+    device:
+      name: "Garten und PV"
+      identifiers:
+        - garten_pv_switch
+      manufacturer: Shelly
+      model: 1PM
+      suggested_area: "Garden"
+- sensor:
+    unique_id: garten_pv_power
+    name: "Garten und PV Power"
+    state_topic: shellies/Garten-1PM/emeter/0/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    device:
+      name: "Garten und PV"
+      identifiers:
+        - garten_pv_switch
+
+
+# Shelly 1PM shellies/OG-TV-1PM/ (Power, Voltage, Current in 1 phase)
 - switch:
     unique_id: og_tv_switch
     name: "OG TV Schalter"
@@ -507,12 +541,13 @@
         - pv_mini_power_meter
 
 # Shelly Plus 1PM shellies/warmwasser
-- sensor:
+- switch:
     unique_id: warmwasser_zirkulation_switch
     name: "Warmwasser Zirkulation"
     state_topic: shellies/warmwasser/status/switch/0
     state_on: "on"
     state_off: "off"
+    command_topic: shellies/warmwasser/command/switch/0
     payload_on: "on,1200" # turn off after 1200 seconds
     payload_off: "off"
     device:
@@ -521,3 +556,77 @@
         - warmwasser_zirkulation
       manufacturer: Shelly
       model: Plus 1PM
+
+# Shelly 1PM shellies/shelly-og-jara-1pm (Power, Voltage, Current in 1 phase)
+- switch:
+    unique_id: og_jara_wand_switch
+    name: "OG Jara Wand"
+    state_topic: shellies/shelly-og-jara-1pm/relay/0
+    state_on: "on"
+    state_off: "off"
+    command_topic: shellies/shelly-og-jara-1pm/relay/0/command
+    payload_on: "on"
+    payload_off: "off"
+    optimistic: true
+    qos: 0
+    retain: true
+    # Map to same device as the switch identified by og_jara_wand_switch
+    device:
+      name: "OG Jara Wand"
+      identifiers:
+        - og_jara_wand_switch
+      manufacturer: Shelly
+      model: 1PM
+      suggested_area: "Jara"
+- sensor:
+    unique_id: og_jara_wand_power
+    name: "OG Jara Wand Power"
+    state_topic: shellies/shelly-og-jara-1pm/emeter/0/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    # Map to same device as the switch identified by og_jara_wand_switch
+    device:
+      name: "OG Jara Wand"
+      identifiers:
+        - og_jara_wand_switch
+
+# Shelly Steckdose 01
+- switch:
+    unique_id: steckdose_01_switch
+    name: "Steckdose 01"
+    state_topic: shellies/shelly-steckdose-01/status/switch:0
+    state_on: "on"
+    state_off: "off"
+    command_topic: shellies/shelly-steckdose-01/command/switch:0
+    payload_on: "on"
+    payload_off: "off"
+    optimistic: true
+    qos: 0
+    retain: true
+    device:
+      name: "Steckdose 01"
+      identifiers:
+        - steckdose_01_switch
+      manufacturer: Shelly
+      model: Steckdose
+
+# Shelly Steckdose 02
+- switch:
+    unique_id: steckdose_02_switch
+    name: "Steckdose 02"
+    state_topic: shellies/shelly-steckdose-02/status/switch:0
+    state_on: "on"
+    state_off: "off"
+    command_topic: shellies/shelly-steckdose-02/command/switch:0
+    payload_on: "on"
+    payload_off: "off"
+    optimistic: true
+    qos: 0
+    retain: true
+    device:
+      name: "Steckdose 02"
+      identifiers:
+        - steckdose_02_switch
+      manufacturer: Shelly
+      model: Steckdose

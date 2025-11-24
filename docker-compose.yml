@@ -8,8 +8,6 @@
 # - Telegraf (https://www.influxdata.com/time-series-platform/telegraf/) to collect data into InfluxDB
 # - Grafana (https://grafana.com/) to visualize data
 
-version: '3'
-
 networks:
   default:
 
