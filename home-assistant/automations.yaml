@@ -1,15 +1,72 @@
-- id: '1700759472567'
-  alias: Weihnachtsbeleuchtung ausschalten um 23 Uhr
-  description: ''
-  trigger:
-  - platform: time
-    at: '23:00:00'
-  condition: []
-  action:
-  - type: turn_off
-    device_id: 958694514d160472bd44c70c28b7fc6f
-    entity_id: switch.steckdose_licht_wohnzimmer_switch
-    domain: switch
+- id: christmas_lighting_schedule
+  alias: Weihnachtsbeleuchtung Zeitplan
+  description: Automatische Steuerung der Weihnachtsbeleuchtung nach Zeitplan
+  triggers:
+  - at: 06:00:00
+    id: turn_on_morning
+    trigger: time
+  - at: 08:00:00
+    id: turn_off_morning
+    trigger: time
+  - at: '16:00:00'
+    id: turn_on_evening
+    trigger: time
+  - at: '22:30:00'
+    id: turn_off_evening
+    trigger: time
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: turn_on_morning
+      sequence:
+      - action: scene.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: scene.weihnachtsbeleuchtung_an
+    - conditions:
+      - condition: trigger
+        id: turn_off_morning
+      sequence:
+      - action: scene.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: scene.weihnachtsbeleuchtung_aus
+    - conditions:
+      - condition: trigger
+        id: turn_on_evening
+      sequence:
+      - action: scene.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: scene.weihnachtsbeleuchtung_an
+    - conditions:
+      - condition: trigger
+        id: turn_off_evening
+      sequence:
+      - action: scene.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: scene.weihnachtsbeleuchtung_aus
+  mode: single
+- id: blinds_morning_tilt
+  alias: Jalousien morgens kippen
+  description: Kippt die Jalousien um 06:15 für Morgenlicht
+  triggers:
+  - at: 06:15:00
+    trigger: time
+  conditions: []
+  actions:
+  - action: cover.set_cover_tilt_position
+    target:
+      area_id: wohnzimmer
+    data:
+      tilt_position: 50
   mode: single
 - id: '1701164836169'
   alias: Jara dimmen-
@@ -111,3 +168,20 @@
     target:
       entity_id: scene.jara_red
   mode: single
+- id: smart_ev_charging
+  alias: "Smart EV Charging"
+  trigger:
+      - platform: state
+        entity_id: binary_sensor.tibber_best_price_interval
+        to: "on"
+  condition:
+      - condition: numeric_state
+        entity_id: sensor.tibber_current_interval_price_rating
+        below: -15 # At least 15% below average
+      - condition: numeric_state
+        entity_id: sensor.ev_battery_level
+        below: 80
+  action:
+      - service: switch.turn_on
+        target:
+            entity_id: switch.ev_charger

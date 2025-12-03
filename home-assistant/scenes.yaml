@@ -346,3 +346,72 @@
       state: 'on'
   icon: mdi:teddy-bear
   metadata: {}
+- id: '1764090543052'
+  name: Weihnachtsbeleuchtung an
+  entities:
+    switch.steckdose_01_steckdose_01:
+      assumed_state: true
+      friendly_name: Steckdose 01 Steckdose 01
+      state: 'on'
+    switch.steckdose_02_steckdose_02:
+      assumed_state: true
+      friendly_name: Steckdose 02 Steckdose 02
+      state: 'on'
+  icon: mdi:string-lights
+  metadata: {}
+- id: '1764090622633'
+  name: Weihnachtsbeleuchtung aus
+  entities:
+    switch.steckdose_01_steckdose_01:
+      assumed_state: true
+      friendly_name: Steckdose 01 Steckdose 01
+      state: 'off'
+    switch.steckdose_02_steckdose_02:
+      assumed_state: true
+      friendly_name: Steckdose 02 Steckdose 02
+      state: 'off'
+  icon: mdi:string-lights-off
+  metadata: {}
+- id: '1764092000000'
+  name: OG Wohnzimmer Jalousien UP
+  entities:
+    cover.og_wohnzimmer_1:
+      state: open
+    cover.og_wohnzimmer_2:
+      state: open
+    cover.og_wohnzimmer_3:
+      state: open
+    cover.og_wohnzimmer_4:
+      state: open
+  icon: mdi:blinds-open
+  metadata: {}
+- id: '1764092000001'
+  name: OG Wohnzimmer Jalousien Mitte
+  entities:
+    cover.og_wohnzimmer_1:
+      state: open
+      position: 50
+    cover.og_wohnzimmer_2:
+      state: open
+      position: 50
+    cover.og_wohnzimmer_3:
+      state: open
+      position: 50
+    cover.og_wohnzimmer_4:
+      state: open
+      position: 50
+  icon: mdi:blinds-horizontal
+  metadata: {}
+- id: '1764092000002'
+  name: OG Wohnzimmer Jalousien DOWN
+  entities:
+    cover.og_wohnzimmer_1:
+      state: closed
+    cover.og_wohnzimmer_2:
+      state: closed
+    cover.og_wohnzimmer_3:
+      state: closed
+    cover.og_wohnzimmer_4:
+      state: closed
+  icon: mdi:blinds-horizontal-closed
+  metadata: {}

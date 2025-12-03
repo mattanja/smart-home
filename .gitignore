@@ -1,11 +1,37 @@
+# Home-Assistant
+home-assistant/zhaquirks/
+home-assistant/blueprints/
+home-assistant/custom_components/
+home-assistant/letsencrypt/
+home-assistant/tts/
+home-assistant/image/
+home-assistant/.HA_VERSION
+home-assistant/*.db
+home-assistant/*.db-shm
+home-assistant/*.db-wal
+home-assistant/home-assistant-efc0c-8a9e60136c4e.json
+
+# Home-Assistant Storage should be backed up separately
+home-assistant/.cloud/
+home-assistant/.storage/
+
+# All other configs and data
 archive/*
 grafana/*
-home-assistant/*
-!home-assistant/*.yaml
 influxdb/*
 iobroker/*
 mosquitto/*
 .env
 .DS_Store
 _secret/
-telegraf/outdata/metrics.out
+telegraf/outdata/
+zha-device-handlers
+zha-device-handlers/*
+
+# Common files
+.env
+.DS_Store
+_secret/
+*.lock
+*.log
+*.log.*
