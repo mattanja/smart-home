@@ -372,46 +372,253 @@
       state: 'off'
   icon: mdi:string-lights-off
   metadata: {}
-- id: '1764092000000'
-  name: OG Wohnzimmer Jalousien UP
+- id: '1766776269551'
+  name: Josh Room off
   entities:
-    cover.og_wohnzimmer_1:
-      state: open
-    cover.og_wohnzimmer_2:
-      state: open
-    cover.og_wohnzimmer_3:
-      state: open
-    cover.og_wohnzimmer_4:
-      state: open
-  icon: mdi:blinds-open
+    update.josh_led_lampe_firmware:
+      auto_update: false
+      display_precision: 2
+      installed_version: '0x00000001'
+      in_progress: false
+      latest_version:
+      release_summary:
+      release_url:
+      skipped_version:
+      title:
+      update_percentage:
+      device_class: firmware
+      entity_picture: https://brands.home-assistant.io/_/zha/icon.png
+      friendly_name: Josh LED Lampe Firmware
+      supported_features: 23
+      state: unknown
+    button.josh_led_lampe_identify:
+      device_class: identify
+      friendly_name: Josh LED Lampe Identify
+      state: unknown
+    light.josh_led_lampe_light:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 254
+      friendly_name: Josh LED Lampe
+      supported_features: 44
+      state: 'off'
+    number.josh_led_lampe_on_off_transition_time:
+      min: 0
+      max: 65535
+      step: 1
+      mode: auto
+      friendly_name: Josh LED Lampe On/Off transition time
+      state: '0'
+    select.josh_led_lampe_start_up_behavior:
+      options:
+      - 'Off'
+      - 'On'
+      - Toggle
+      - PreviousValue
+      friendly_name: Josh LED Lampe Start-up behavior
+      state: 'Off'
+    number.josh_led_lampe_start_up_color_temperature:
+      min: 153
+      max: 370
+      step: 1
+      mode: auto
+      friendly_name: Josh LED Lampe Start-up color temperature
+      state: '370'
+    number.josh_led_lampe_start_up_current_level:
+      min: 0
+      max: 255
+      step: 1
+      mode: auto
+      friendly_name: Josh LED Lampe Start-up current level
+      state: '255'
+    light.joshua_dart:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 9000
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Joshua Dart
+      supported_features: 32
+      state: 'off'
+  icon: mdi:lightbulb-off
   metadata: {}
-- id: '1764092000001'
-  name: OG Wohnzimmer Jalousien Mitte
+- id: '1766776919001'
+  name: Josh Room on
   entities:
-    cover.og_wohnzimmer_1:
-      state: open
-      position: 50
-    cover.og_wohnzimmer_2:
-      state: open
-      position: 50
-    cover.og_wohnzimmer_3:
-      state: open
-      position: 50
-    cover.og_wohnzimmer_4:
-      state: open
-      position: 50
-  icon: mdi:blinds-horizontal
+    light.josh_led_lampe_light:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 204
+      color_temp_kelvin: 3984
+      color_temp: 251
+      hs_color:
+      - 26.819
+      - 35.161
+      rgb_color:
+      - 255
+      - 205
+      - 165
+      xy_color:
+      - 0.421
+      - 0.365
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Josh LED Lampe
+      supported_features: 44
+      state: 'on'
+    light.joshua_dart:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 9000
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 128
+      color_temp_kelvin: 4333
+      color_temp: 230
+      hs_color:
+      - 26.723
+      - 29.152
+      rgb_color:
+      - 255
+      - 214
+      - 181
+      xy_color:
+      - 0.401
+      - 0.359
+      friendly_name: Joshua Dart
+      supported_features: 32
+      state: 'on'
+  icon: mdi:lightbulb
   metadata: {}
-- id: '1764092000002'
-  name: OG Wohnzimmer Jalousien DOWN
+- id: '1766778193930'
+  name: Joshua Lights purple
+  entities:
+    light.josh_led_lampe_light:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 254
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Josh LED Lampe
+      supported_features: 44
+      state: 'on'
+    light.joshua_dart:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 9000
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 277.143
+      - 41.176
+      rgb_color:
+      - 215
+      - 150
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      friendly_name: Joshua Dart
+      supported_features: 32
+      state: 'on'
+  icon: mdi:lightbulb-on-60
+  metadata: {}
+- id: '1767090041761'
+  name: OG Wohnzimmer Jalousien mittig
   entities:
     cover.og_wohnzimmer_1:
-      state: closed
+      current_position: 50
+      current_tilt_position: 100
+      device_class: blind
+      friendly_name: OG Wohnzimmer 1
+      supported_features: 255
+      state: open
     cover.og_wohnzimmer_2:
-      state: closed
+      current_position: 50
+      current_tilt_position: 100
+      device_class: blind
+      friendly_name: OG Wohnzimmer 2
+      supported_features: 255
+      state: open
     cover.og_wohnzimmer_3:
-      state: closed
+      current_position: 48
+      current_tilt_position: 100
+      device_class: blind
+      friendly_name: OG Wohnzimmer 3
+      supported_features: 255
+      state: open
     cover.og_wohnzimmer_4:
-      state: closed
-  icon: mdi:blinds-horizontal-closed
+      current_position: 50
+      current_tilt_position: 100
+      device_class: blind
+      friendly_name: OG Wohnzimmer 4
+      supported_features: 255
+      state: open
   metadata: {}

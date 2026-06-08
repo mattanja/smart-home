@@ -5,7 +5,7 @@
   - at: 06:00:00
     id: turn_on_morning
     trigger: time
-  - at: 08:00:00
+  - at: '11:00:00'
     id: turn_off_morning
     trigger: time
   - at: '16:00:00'
@@ -169,19 +169,136 @@
       entity_id: scene.jara_red
   mode: single
 - id: smart_ev_charging
-  alias: "Smart EV Charging"
-  trigger:
-      - platform: state
-        entity_id: binary_sensor.tibber_best_price_interval
-        to: "on"
-  condition:
-      - condition: numeric_state
-        entity_id: sensor.tibber_current_interval_price_rating
-        below: -15 # At least 15% below average
-      - condition: numeric_state
-        entity_id: sensor.ev_battery_level
-        below: 80
-  action:
-      - service: switch.turn_on
-        target:
-            entity_id: switch.ev_charger
+  alias: Smart EV Charging
+  triggers:
+  - trigger: time
+    at: sensor.tibber_best_price_start
+  conditions:
+  - condition: numeric_state
+    entity_id: sensor.tibber_current_interval_price_rating
+    below: -15
+  actions:
+  - target:
+      entity_id: switch.ev_charger
+    action: switch.turn_on
+- id: '1764827050815'
+  alias: Wallbox laden wenn günstig
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.tibber_best_price_period
+    to:
+    - 'on'
+  conditions: []
+  actions:
+  - action: easee.action_command
+    metadata: {}
+    data:
+      device_id: cf0d7e56b5d239172d13caec0b1afc1f
+      action_command: override_schedule
+  - action: easee.action_command
+    metadata: {}
+    data:
+      action_command: start
+      device_id: cf0d7e56b5d239172d13caec0b1afc1f
+  - action: notify.notify
+    metadata: {}
+    data:
+      title: 'Wallbox rechts gestartet '
+      message: 'Ladevorgang gestartet: {{ states(''sensor.tibber_hourly_price_current'')
+        }} ct/kWh
+
+        Niedrigster Preis heute: {{ states(''sensor.tibber_today_s_lowest_price'')
+        }} ct/kWh
+
+        Niedrigster Preis morgen: {{ states(''sensor.tibber_tomorrow_s_lowest_price'')
+        }} ct/kWh
+
+        Trend (2h): {{ states(''sensor.tibber_price_trend_2h'') }}
+
+        Volatility: {{ states(''sensor.tibber_today_s_price_volatility'') }}
+
+        '
+  mode: single
+- id: '1766776400649'
+  alias: Joshua Switch Lights off
+  description: ''
+  triggers:
+  - device_id: 59429e142ab1e8457390d782efdc4e67
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_2
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.josh_off
+    data: {}
+  mode: single
+- id: '1766776822666'
+  alias: Joshua Switch Lights on
+  description: ''
+  triggers:
+  - device_id: 59429e142ab1e8457390d782efdc4e67
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_1
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.josh_room_on
+  mode: single
+- id: '1766778261086'
+  alias: Joshua Switch Lighs purple
+  description: ''
+  triggers:
+  - device_id: 59429e142ab1e8457390d782efdc4e67
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_3
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.joshua_lights_purple
+    data: {}
+  mode: single
+- id: '1767187480054'
+  alias: Weihnachtsbeleuchtung Eltern on
+  description: ''
+  triggers:
+  - trigger: time
+    at: 06:00:00
+  - trigger: time
+    at: '17:00:00'
+  conditions: []
+  actions:
+  - type: turn_on
+    device_id: 0f098af86c206a83c4b78dd96039c23e
+    entity_id: 3638d8b6aeb8a1283035114a0818bbf8
+    domain: switch
+  mode: single
+- id: '1767187549977'
+  alias: Weihnachtsbeleuchtung Eltern off
+  description: ''
+  triggers:
+  - trigger: time
+    at: 08:00:00
+  - trigger: time
+    at: '22:30:00'
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 0f098af86c206a83c4b78dd96039c23e
+    entity_id: 3638d8b6aeb8a1283035114a0818bbf8
+    domain: switch
+  mode: single

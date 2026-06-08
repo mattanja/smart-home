@@ -1,0 +1,13 @@
+test:
+  use_blueprint:
+    path: homeassistant/confirmable_notification.yaml
+    input:
+      notify_device: 813b9ee9d3e136b32fa84a2b371759e6
+      title: Start charging
+      confirm_action:
+      - device_id: cf0d7e56b5d239172d13caec0b1afc1f
+        domain: easee
+        type: start
+      message: Start charging?
+  alias: Test
+  description: ''

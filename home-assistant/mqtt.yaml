@@ -541,15 +541,22 @@
         - pv_mini_power_meter
 
 # Shelly Plus 1PM shellies/warmwasser
+# Only reliable value is { "output": true/false } in the json data of the state_topic
+# Shelly Plus (Gen 2 plus ar pro) behave very different from older/other models!
+# See https://community.home-assistant.io/t/shelly-gen-2-plus-and-pro-using-mqtt/347979/18
+# command_topic: "garage-heat-pump-switch-pm/rpc"
+# payload_on: '{"id":1, "src": "homeassistant", "method": "Switch.Set", "params":{"id":0,"on":true}}'
+# payload_off: '{"id":1, "src": "homeassistant", "method": "Switch.Set", "params":{"id":0,"on":false}}'
 - switch:
     unique_id: warmwasser_zirkulation_switch
     name: "Warmwasser Zirkulation"
-    state_topic: shellies/warmwasser/status/switch/0
-    state_on: "on"
-    state_off: "off"
-    command_topic: shellies/warmwasser/command/switch/0
-    payload_on: "on,1200" # turn off after 1200 seconds
-    payload_off: "off"
+    state_topic: shellies/warmwasser/status/switch:0
+    value_template: "{{ value_json.output | bool }}"
+    state_on: true
+    state_off: false
+    command_topic: shellies/warmwasser/rpc
+    payload_on: '{"id":1, "src": "homeassistant", "method": "Switch.Set", "params":{"id":0,"on":true,"toggle_after":1200}}'
+    payload_off: '{"id":1, "src": "homeassistant", "method": "Switch.Set", "params":{"id":0,"on":false}}'
     device:
       name: "Warmwasser Zirkulation"
       identifiers:

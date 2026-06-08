@@ -50,6 +50,16 @@ google_assistant:
       expose: false
       room: LIVING_ROOM
 
+logger:
+  # The next line sets the default logging level, for all python modules.
+  # It seems "recommended" to set it to avoid too much logging.
+  default: warning
+  #logs:
+  #  custom_components.zha_toolkit: debug
+  #  zhaquirks: debug
+  #  zigpy: debug
+  #  zigpy.quirks: debug
+
 # Alexa Integration following these instructions:
 # https://www.home-assistant.io/integrations/alexa.smart_home/#create-an-amazon-alexa-smart-home-skill
 # Related lambda function (Region eu-west-1, Europe Ireland), note Configuration -> Environment variables
@@ -65,3 +75,6 @@ alexa:
 zha:
   enable_quirks: true
   custom_quirks_path: /config/zhaquirks/
+
+# See https://github.com/mdeweerd/zha-toolkit
+zha_toolkit:
