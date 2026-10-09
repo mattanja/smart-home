@@ -56,10 +56,10 @@ Local Hoymiles already works. Cloud helps for Solarman (module often offline loc
 
 | Need | What |
 |------|------|
-| App login | Vault item **Solarman** — URI `androidapp://com.igen.xiaomaizhidian` (Solarman Smart), user `mattanja@kern.services` |
-| API keys | **appId + appSecret** — **not in vault**; request from Solarman (`customerservice@solarmanpv.com` / [API docs](https://doc.solarmanpv.com/en/Documentation%20and%20Quick%20Guide)) |
-| Device | Logger/inverter **serial** (from app) |
-| HA integration | [daspilker/home-assistant-solarman-api](https://github.com/daspilker/home-assistant-solarman-api) (HACS custom repo) |
+| App login | Vault / `_secret/info.md` — **Solarman** (`mattanja@kern.services`); URI `com.igen.xiaomaizhidian` |
+| API keys | **appId + appSecret** still missing — request from `customerservice@solarmanpv.com` ([docs](https://doc.solarmanpv.com/en/Documentation%20and%20Quick%20Guide)) |
+| Device | Logger/inverter **serial** from Solarman Smart app (deviceSn) |
+| HA integration | [`solarman_api`](https://github.com/daspilker/home-assistant-solarman-api) **installed** on HA — config flow needs all 5 fields above |
 | ioBroker alt | [`iobroker.solarmanpv`](https://github.com/raschy/ioBroker.solarmanpv) — same appId/secret |
 
 Local stick integration (`davidrapan/ha-solarman` @ MAC `28:9C:6E:82:E0:FE`) stays preferred when TCP **8899** is reachable; cloud is the fallback while the module sleeps/offline.
