@@ -72,9 +72,11 @@ Local stick integration (`davidrapan/ha-solarman` @ MAC `28:9C:6E:82:E0:FE`) sta
 
 ## Energy dashboard
 
-- Keep existing Shelly PV Mini return sensor if it measures the same feed carefully (avoid double-counting).
-- Add Hoymiles port totals and/or a template sum once daytime values look right.
-- Add Solarman production sensors once local 8899 or cloud API works.
+- **Shelly PV Mini:** `sensor.pv_mini_power_meter_pv_mini_power_meter_total_returned`
+- **Hoymiles Garten:** `sensor.hoymiles_garten_total_energy` (template sum of 4 DC port totals) — added 2026-10-09
+- Solarman: add after local 8899 works (tomorrow)
+
+These are treated as separate solar sources (Garten Hoymiles + Shelly mini meter).
 
 ## Related
 

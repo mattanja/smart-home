@@ -5,3 +5,23 @@
       device_class: window
       state: "{{ is_state('binary_sensor.fenster', 'off') }}"
       availability: "{{ states('binary_sensor.fenster') not in ('unknown', 'unavailable') }}"
+
+- sensor:
+    - name: Hoymiles Garten total energy
+      unique_id: hoymiles_garten_total_energy
+      unit_of_measurement: Wh
+      device_class: energy
+      state_class: total_increasing
+      state: >-
+        {% set p1 = states('sensor.inverter_port_1_dc_total_energy') | float(0) %}
+        {% set p2 = states('sensor.inverter_port_2_dc_total_energy') | float(0) %}
+        {% set p3 = states('sensor.inverter_port_3_dc_total_energy') | float(0) %}
+        {% set p4 = states('sensor.inverter_port_4_dc_total_energy') | float(0) %}
+        {{ (p1 + p2 + p3 + p4) | round(0) }}
+      availability: >-
+        {{ expand(
+             'sensor.inverter_port_1_dc_total_energy',
+             'sensor.inverter_port_2_dc_total_energy',
+             'sensor.inverter_port_3_dc_total_energy',
+             'sensor.inverter_port_4_dc_total_energy'
+           ) | selectattr('state', 'in', ['unknown', 'unavailable']) | list | count == 0 }}
