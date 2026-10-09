@@ -95,16 +95,20 @@ views:
             grid_options:
               columns: 6
 
-      # Lights
+      # Lights – Jara
       - type: grid
         cards:
           - type: heading
-            heading: Licht
+            heading: Jara
             heading_style: title
-            icon: mdi:lightbulb-group
+            icon: mdi:face-woman-outline
+            badges:
+              - type: entity
+                entity: light.jara_leds_light
+                show_name: false
           - type: tile
             entity: light.jara_leds_light
-            name: Jara LEDs
+            name: LEDs
             features_position: bottom
             features:
               - type: light-brightness
@@ -113,7 +117,7 @@ views:
               rows: 2
           - type: tile
             entity: light.jara_decke_light
-            name: Jara Decke
+            name: Decke
             features_position: bottom
             features:
               - type: light-brightness
@@ -121,14 +125,70 @@ views:
               columns: 6
               rows: 2
           - type: tile
+            entity: switch.og_jara_wand_og_jara_wand
+            name: Nachtlicht
+            icon: mdi:lamp-outline
+            grid_options:
+              columns: 6
+              rows: 2
+          - type: tile
+            entity: scene.jara_room_white
+            name: Weiß
+            hide_state: true
+            color: grey
+            grid_options:
+              columns: 4
+          - type: tile
+            entity: scene.jara_room_blue
+            name: Blau
+            hide_state: true
+            color: blue
+            grid_options:
+              columns: 4
+          - type: tile
+            entity: scene.jara_red
+            name: Rot
+            hide_state: true
+            color: red
+            grid_options:
+              columns: 4
+          - type: tile
+            entity: cover.dg_jara
+            name: Rolladen
+            features_position: bottom
+            features:
+              - type: cover-open-close
+            grid_options:
+              columns: 12
+
+      # Lights – Josh
+      - type: grid
+        cards:
+          - type: heading
+            heading: Josh
+            heading_style: title
+            icon: mdi:account-cowboy-hat
+            badges:
+              - type: entity
+                entity: light.josh_led_lampe_light
+                show_name: false
+          - type: tile
             entity: light.josh_led_lampe_light
-            name: Josh
+            name: LED Lampe
             features_position: bottom
             features:
               - type: light-brightness
             grid_options:
-              columns: 6
+              columns: 12
               rows: 2
+          - type: tile
+            entity: cover.og_josh
+            name: Rolladen
+            features_position: bottom
+            features:
+              - type: cover-open-close
+            grid_options:
+              columns: 12
 
       # Climate
       - type: grid
