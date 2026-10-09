@@ -75,7 +75,10 @@
 - sensor:
     unique_id: og_tv_power
     name: "OG TV Power"
-    state_topic: shellies/OG-TV-1PM/emeter/0/power
+    state_topic: shellies/OG-TV-1PM/relay/0/power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
 - sensor:
     unique_id: og_tv_external_temperature
     name: "OG TV External Temperature"

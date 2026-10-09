@@ -1,0 +1,443 @@
+title: Zuhause
+views:
+  # ── Home ──────────────────────────────────────────────────────────────────
+  # Layout follows HA Sections "Z-Grid" pattern (max 3 columns, one topic per
+  # section, grid_options for card sizing). See:
+  # https://www.home-assistant.io/blog/2024/03/04/dashboard-chapter-1/
+  - title: Home
+    path: home
+    icon: mdi:home
+    type: sections
+    max_columns: 3
+    sections:
+      # ── Row 1: Camera (full width) ─────────────────────────────────────────
+      - type: grid
+        column_span: 3
+        cards:
+          - type: picture-entity
+            entity: camera.192_168_57_55
+            name: Eingang
+            show_state: true
+            show_name: true
+            camera_view: live
+            grid_options:
+              columns: 12
+              rows: 3
+
+      # ── Row 2: Living controls (3 equal sections) ────────────────────────
+      - type: grid
+        cards:
+          - type: heading
+            heading: Wohnzimmer
+            heading_style: title
+          - show_name: true
+            show_icon: true
+            type: button
+            entity: switch.og_tv_switch
+            name: Fernseher
+            icon: mdi:television
+            icon_height: 60px
+            show_state: true
+            tap_action:
+              action: toggle
+            grid_options:
+              columns: 12
+          - type: heading
+            heading: Jalousien
+          - show_name: true
+            show_icon: true
+            type: button
+            entity: automation.og_wohnzimmer_jalousien_up
+            name: Offen
+            icon: mdi:blinds-open
+            icon_height: 40px
+            grid_options:
+              columns: 4
+          - show_name: true
+            show_icon: true
+            type: button
+            entity: scene.og_wohnzimmer_jalousien_mitte
+            name: Halb
+            icon: mdi:blinds-horizontal
+            icon_height: 40px
+            grid_options:
+              columns: 4
+          - show_name: true
+            show_icon: true
+            type: button
+            entity: automation.og_wohnzimmer_jalousien_down
+            name: Zu
+            icon: mdi:blinds-horizontal-closed
+            icon_height: 40px
+            grid_options:
+              columns: 4
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Licht
+            heading_style: title
+          - type: light
+            entity: light.josh_led_lampe_light
+            name: Josh
+            grid_options:
+              columns: 4
+          - type: light
+            entity: light.jara_leds_light
+            name: Jara
+            grid_options:
+              columns: 4
+          - type: light
+            entity: light.joshua_dart
+            name: Dart
+            grid_options:
+              columns: 4
+          - type: light
+            entity: light.leds_schlafzimmer_light
+            name: Schlafzimmer Bett
+            grid_options:
+              columns: 12
+          - type: tile
+            entity: scene.weihnachtsbeleuchtung_an
+            grid_options:
+              columns: 6
+          - type: tile
+            entity: scene.weihnachtsbeleuchtung_aus
+            grid_options:
+              columns: 6
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Klima
+            heading_style: title
+          - type: sensor
+            entity: sensor.og_tv_external_temperature
+            name: Außentemperatur
+            graph: line
+            grid_options:
+              columns: 12
+              rows: 2
+          - type: thermostat
+            entity: climate.ac_schlafzimmer
+            name: AC Schlafzimmer
+            grid_options:
+              columns: 12
+              rows: 3
+            features:
+              - type: climate-hvac-modes
+                hvac_modes:
+                  - "off"
+                  - heat_cool
+                  - cool
+                  - dry
+                  - heat
+                  - fan_only
+          - type: thermostat
+            entity: climate.ac_wohnzimmer
+            name: AC Wohnzimmer
+            grid_options:
+              columns: 12
+              rows: 3
+            features:
+              - type: climate-hvac-modes
+                hvac_modes:
+                  - "off"
+                  - heat_cool
+                  - cool
+                  - dry
+                  - heat
+                  - fan_only
+
+      # ── Row 3: Monitoring (3 equal sections) ─────────────────────────────
+      - type: grid
+        cards:
+          - type: heading
+            heading: Fenster & Türen
+            heading_style: title
+          - type: custom:device-monitor-card
+            entity_type: contact
+            filter: alert
+            show_unavailable: false
+            battery_threshold: 20
+            title: Offene Fenster
+            card_visibility: always
+            sort_by: state
+            name_source: device
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Temperatur
+            heading_style: title
+          - type: glance
+            entities:
+              - entity: sensor.sonoff_snzb_02d_temperature
+                name: Einlieger
+              - entity: sensor.sonoff_snzb_02d_humidity
+                name: Feuchte
+              - entity: sensor.sonoff_snzb_02d_temperature_2
+                name: EG Wohnz.
+              - entity: sensor.sonoff_snzb_02d_humidity_2
+                name: EG Feuchte
+          - type: sensor
+            entity: sensor.sonoff_snzb_02d_temperature_2
+            name: EG Verlauf
+            graph: line
+            detail: 1
+            grid_options:
+              columns: 12
+              rows: 2
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Haustechnik
+            heading_style: title
+          - type: tile
+            entity: switch.warmwasser_zirkulation_warmwasser_zirkulation
+            name: Warmwasser-Zirkulation
+            grid_options:
+              columns: 12
+          - type: heading
+            heading: Wallboxen
+          - type: entities
+            entities:
+              - entity: sensor.wallbox_links_power
+                name: Links Leistung
+              - entity: sensor.wallbox_links_status
+                name: Links Status
+              - entity: sensor.wallbox_rechts_power
+                name: Rechts Leistung
+              - entity: sensor.wallbox_rechts_status
+                name: Rechts Status
+              - entity: switch.wallbox_rechts_charger_enabled
+                name: Rechts Laden
+              - entity: button.wallbox_rechts_override_schedule
+                name: Rechts Override
+
+      # ── Row 4: Energy (full width) ─────────────────────────────────────────
+      - type: grid
+        column_span: 3
+        cards:
+          - type: heading
+            heading: Energie
+            heading_style: title
+          - type: history-graph
+            entities:
+              - sensor.house_total_power
+            hours_to_show: 3
+            grid_options:
+              columns: 12
+              rows: 2
+          - type: entities
+            title: Haus (Gesamt)
+            entities:
+              - sensor.house_power_phase0_power
+              - sensor.house_power_phase1_power
+              - sensor.house_power_phase2_power
+            grid_options:
+              columns: 4
+          - type: entities
+            title: OG (Familie)
+            entities:
+              - sensor.og_power_meter_og_power_phase_0_power
+              - sensor.og_power_meter_og_power_phase_1_power
+              - sensor.og_power_meter_og_power_phase_2_power
+            grid_options:
+              columns: 4
+          - type: entities
+            title: EG (Eltern)
+            entities:
+              - sensor.eg_power_phase0_power
+              - sensor.eg_power_phase1_power
+              - sensor.eg_power_phase2_power
+            grid_options:
+              columns: 4
+
+  # ── Rolläden ─────────────────────────────────────────────────────────────
+  - title: Rolläden
+    path: rolladen
+    icon: mdi:blinds-horizontal
+    type: sections
+    max_columns: 4
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Dachgeschoss
+            heading_style: title
+          - type: tile
+            entity: cover.dg_bad_links
+          - type: tile
+            entity: cover.dg_bad_rechts
+          - type: tile
+            entity: cover.dg_jara
+          - type: tile
+            entity: cover.dg_schlafen_links
+          - type: tile
+            entity: cover.dg_schlafen_rechts
+          - type: heading
+            heading: OG Wohnzimmer
+            heading_style: title
+          - type: tile
+            entity: cover.og_wohnzimmer_1
+          - type: tile
+            entity: cover.og_wohnzimmer_2
+          - type: tile
+            entity: cover.og_wohnzimmer_3
+          - type: tile
+            entity: cover.og_wohnzimmer_4
+          - type: tile
+            entity: button.og_wohnzimmer_3_my_position
+            name: Wohnzimmer 3 – My Position
+
+  # ── Jara ─────────────────────────────────────────────────────────────────
+  - title: Jara
+    path: jara
+    icon: mdi:face-woman-outline
+    type: sections
+    max_columns: 4
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: |
+          # Jaras Zimmer
+    background:
+      opacity: 33
+      alignment: center
+      size: cover
+      repeat: repeat
+      attachment: fixed
+      image: /api/image/serve/19f96411403cb37604e898a51556a139/original
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Licht
+            heading_style: title
+          - type: light
+            entity: light.jara_leds_light
+          - type: light
+            entity: light.jara_decke_light
+            name: Jara Lampe
+          - show_name: true
+            show_icon: true
+            type: button
+            entity: switch.og_jara_wand_og_jara_wand
+            name: Nachtlicht
+            icon: mdi:lamp-outline
+            grid_options:
+              columns: full
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Zimmer
+            heading_style: title
+          - type: tile
+            entity: cover.dg_jara
+            name: Rolladen
+          - type: tile
+            entity: person.jara
+            show_entity_picture: true
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Szenen & Automationen
+            heading_style: title
+          - type: tile
+            entity: scene.jara_room_blue
+          - type: tile
+            entity: scene.jara_red
+          - type: tile
+            entity: scene.jara_room_white
+          - type: tile
+            entity: automation.jara_leds_dimmen_schalter_links_0_long
+          - type: tile
+            entity: automation.jara_dimmen
+          - type: tile
+            entity: automation.jara_off
+          - type: tile
+            entity: automation.jara_schalter
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Schalter
+            heading_style: title
+          - type: tile
+            entity: sensor.jara_schalter_zigbee_battery
+          - type: tile
+            entity: sensor.jara_schalter_zigbee_battery_2
+
+  # ── Josh ─────────────────────────────────────────────────────────────────
+  - title: Josh
+    path: josh
+    icon: mdi:account-cowboy-hat
+    type: masonry
+    background:
+      opacity: 33
+      alignment: center
+      size: cover
+      repeat: repeat
+      attachment: fixed
+      image:
+        media_content_id: media-source://image_upload/2f423aa26d7695aaa7149fce7cc9866f
+        media_content_type: image/jpeg
+        metadata:
+          title: 1000170806.jpg
+          thumbnail: /api/image/serve/2f423aa26d7695aaa7149fce7cc9866f/256x256
+          media_class: image
+          navigateIds:
+            - {}
+            - media_content_type: app
+              media_content_id: media-source://image_upload
+    cards:
+      - type: heading
+        heading: Licht
+        heading_style: title
+      - show_name: true
+        show_icon: true
+        type: button
+        entity: light.joshua_dart
+      - show_name: true
+        show_icon: true
+        type: button
+        entity: light.josh_led_lampe_light
+      - type: entities
+        title: Schalter Joshua
+        entities:
+          - entity: button.schalter_joshua_identify
+            name: Identify
+          - entity: sensor.schalter_joshua_battery
+            name: Battery
+          - entity: sensor.schalter_joshua_battery_2
+            name: Battery
+
+  # ── Heizung ──────────────────────────────────────────────────────────────
+  - title: Heizung
+    path: heizung
+    icon: mdi:radiator
+    type: sections
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: EG Wohnzimmer
+            heading_style: title
+          - type: custom:better-thermostat-ui-card
+            entity: climate.eg_wohnzimmer_thermostat
+            grid_options:
+              columns: 12
+              rows: 4
+      - type: grid
+        cards:
+          - type: heading
+            heading: Temperatur
+            heading_style: title
+          - type: tile
+            entity: sensor.sonoff_snzb_02d_temperature

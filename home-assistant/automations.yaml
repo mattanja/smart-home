@@ -302,3 +302,47 @@
     entity_id: 3638d8b6aeb8a1283035114a0818bbf8
     domain: switch
   mode: single
+- id: tv_power_notifications
+  alias: Fernseher an/aus Benachrichtigung
+  description: >-
+    Migriert von ioBroker script.js.common.Home (Telegram).
+    Shelly OG-TV-1PM Leistung > 35 W gilt als eingeschaltet.
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.og_tv_power
+    above: 35
+    id: turned_on
+  - trigger: numeric_state
+    entity_id: sensor.og_tv_power
+    below: 35
+    id: turned_off
+  conditions: []
+  actions:
+  - variables:
+      notify_title: Fernseher
+      notify_message: >-
+        {% if trigger.id == "turned_on" %}Fernseher eingeschaltet!{% else %}Fernseher
+        ausgeschaltet.{% endif %}
+  - parallel:
+    - action: notify.send_message
+      continue_on_error: true
+      target:
+        entity_id: notify.mattanjas_iphone
+      data:
+        title: "{{ notify_title }}"
+        message: "{{ notify_message }}"
+    - action: notify.send_message
+      continue_on_error: true
+      target:
+        entity_id: notify.mattanjas_pixel
+      data:
+        title: "{{ notify_title }}"
+        message: "{{ notify_message }}"
+    - action: notify.send_message
+      continue_on_error: true
+      target:
+        entity_id: notify.iphone_von_claudia
+      data:
+        title: "{{ notify_title }}"
+        message: "{{ notify_message }}"
+  mode: single

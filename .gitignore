@@ -10,6 +10,11 @@ home-assistant/*.db
 home-assistant/*.db-shm
 home-assistant/*.db-wal
 home-assistant/home-assistant-efc0c-8a9e60136c4e.json
+home-assistant/.cache/
+home-assistant/www/
+home-assistant/*.bak*
+home-assistant/*.base
+home-assistant/*.broken*
 
 # Home-Assistant Storage should be backed up separately
 home-assistant/.cloud/

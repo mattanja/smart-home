@@ -1,0 +1,7 @@
+- binary_sensor:
+    - name: Fenster
+      unique_id: fenster_window_state
+      default_entity_id: binary_sensor.fenster_zustand
+      device_class: window
+      state: "{{ is_state('binary_sensor.fenster', 'off') }}"
+      availability: "{{ states('binary_sensor.fenster') not in ('unknown', 'unavailable') }}"

@@ -7,6 +7,7 @@ tts:
   - platform: google_translate
 
 group: !include groups.yaml
+template: !include templates.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
@@ -72,9 +73,24 @@ alexa:
 # See https://www.home-assistant.io/integrations/zha/
 # git clone https://github.com/zigpy/zha-device-handlers.git
 
+homeassistant:
+  customize:
+    binary_sensor.fenster:
+      hidden: true
+
 zha:
   enable_quirks: true
-  custom_quirks_path: /config/zhaquirks/
+  custom_quirks_path: /config/custom_zha_quirks/
 
 # See https://github.com/mdeweerd/zha-toolkit
 zha_toolkit:
+
+lovelace:
+  mode: storage
+  dashboards:
+    home-yaml:
+      mode: yaml
+      title: Zuhause
+      icon: mdi:home
+      show_in_sidebar: true
+      filename: dashboards.yaml
