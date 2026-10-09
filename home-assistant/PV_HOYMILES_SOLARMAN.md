@@ -4,8 +4,11 @@
 
 | System | Host | Integration | Status |
 |--------|------|-------------|--------|
-| **Hoymiles** (WiFi DTU / HMS) | `192.168.57.104` (`espressif`) port **10081** | HACS custom [`hoymiles_wifi`](https://github.com/suaveolent/ha-hoymiles-wifi) | **Live** — AC/DC power, per-port Wh totals |
-| **Solarman** WiFi module | DHCP often `192.168.57.89` — MAC **`28:9C:6E:82:E0:FE`** | HACS custom [`solarman`](https://github.com/davidrapan/ha-solarman) | Configured @ `.89:8899`; **host was offline** when last checked (stale ARP) — retry when module is up |
+| **Hoymiles** local | `192.168.57.104:10081` | [`hoymiles_wifi`](https://github.com/suaveolent/ha-hoymiles-wifi) | Local DTU polling |
+| **Hoymiles** cloud | S-Miles (`mattanja+hoymiles@kern.services`) | [`hoymiles_nimbus`](https://github.com/wil-lem/ha-hoymiles-s-cloud) | **Configured** 2026-10-09 from Vault |
+| **Solarman** inverter (+ WiFi) | MAC **`28:9C:6E:82:E0:FE`** ≈ `.89` | [`solarman`](https://github.com/davidrapan/ha-solarman) local; cloud needs `appId`/`appSecret` | Local offline last check; app login in Vault as **Solarman** |
+
+**History:** Balcony inverter was **Bosswerk MI600** (Solarman stack). **Replaced by current Solarman inverter** — Vault *Wechselrichter Bosswerk MI600* is legacy (AP `10.10.100.254` / `.89` notes may still help for the logger UI).
 
 **Not Solarman:** Fritz host `Dongle-M-94C8` (`192.168.57.36`, MAC `1C:69:20:7F:94:C8`) is the **Zigbee** dongle — ignore for PV.
 
@@ -47,14 +50,14 @@ Local Hoymiles already works. Cloud helps for Solarman (module often offline loc
 | HA integration | e.g. [wil-lem/ha-hoymiles-s-cloud](https://github.com/wil-lem/ha-hoymiles-s-cloud) (PoC) or [Philra94/homeassistant-hoymiles-cloud](https://github.com/Philra94/homeassistant-hoymiles-cloud) (stronger on HYT+battery) |
 | ioBroker alt | [`iobroker.hoymiles`](https://github.com/Eistee82/ioBroker.hoymiles) — local TCP **and** S-Miles cloud |
 
-No plant credentials in `_secret/` yet → cannot finish setup until you provide login (or store them for agent use).
+**Vault (2026-10-09):** Bitwarden item *com.hm.hemaiInstall1* → `mattanja+hoymiles@kern.services` + password (S-Miles / global.hoymiles.com). Ready to configure cloud HA once component is added.
 
 ### Solarman → Solarman Cloud API
 
 | Need | What |
 |------|------|
-| App login | Solarman Smart / [home.solarmanpv.com](https://home.solarmanpv.com) email + password |
-| API keys | **appId + appSecret** — request from Solarman (`customerservice@solarmanpv.com` / [API docs](https://doc.solarmanpv.com/en/Documentation%20and%20Quick%20Guide)); often takes a support ticket |
+| App login | Vault item **Solarman** → `mattanja@kern.services` + password (Solarman Smart app) |
+| API keys | **appId + appSecret** — **not in vault**; request from Solarman (`customerservice@solarmanpv.com` / [API docs](https://doc.solarmanpv.com/en/Documentation%20and%20Quick%20Guide)) |
 | Device | Logger/inverter **serial** (from app) |
 | HA integration | [daspilker/home-assistant-solarman-api](https://github.com/daspilker/home-assistant-solarman-api) (HACS custom repo) |
 | ioBroker alt | [`iobroker.solarmanpv`](https://github.com/raschy/ioBroker.solarmanpv) — same appId/secret |
