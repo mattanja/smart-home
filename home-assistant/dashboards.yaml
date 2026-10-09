@@ -442,6 +442,196 @@ views:
             grid_options:
               columns: 6
 
+
+      # Tibber 48h price preview (next to Wallbox)
+      - type: grid
+        column_span: 2
+        cards:
+          - type: heading
+            heading: Tibber Preisvorschau
+            heading_style: title
+            icon: mdi:chart-timeline-variant
+          - type: tile
+            entity: sensor.tibber_price_today
+            name: Ø Heute
+            grid_options:
+              columns: 4
+          - type: tile
+            entity: sensor.tibber_price_tomorrow
+            name: Ø Morgen
+            grid_options:
+              columns: 4
+          - type: tile
+            entity: sensor.tibber_today_s_lowest_price
+            name: Tief heute
+            color: green
+            grid_options:
+              columns: 4
+          - type: 'custom:config-template-card'
+            variables:
+              v_offset: 'states[''binary_sensor.tibber_tomorrow_s_data_available''].state === ''on'' ? ''+1d'' : ''+0d'''
+              v_yaxis_min: 'states[''sensor.tibber_chart_metadata''].attributes.yaxis_min'
+              v_yaxis_max: 'states[''sensor.tibber_chart_metadata''].attributes.yaxis_max'
+            entities:
+            - binary_sensor.tibber_tomorrow_s_data_available
+            - sensor.tibber_chart_metadata
+            card:
+              type: 'custom:apexcharts-card'
+              update_interval: 5m
+              header:
+                show: true
+                title: Tibber Preise (48h)
+                show_states: false
+              apex_config:
+                chart:
+                  animations:
+                    enabled: false
+                  toolbar:
+                    show: true
+                    tools:
+                      zoom: true
+                      pan: true
+                  zoom:
+                    enabled: true
+                  height: 320
+                stroke:
+                  curve: stepline
+                fill:
+                  type: gradient
+                  opacity: 0.45
+                  gradient:
+                    shade: light
+                    type: vertical
+                    shadeIntensity: 0.2
+                    opacityFrom:
+                    - 0.5
+                    - 0.7
+                    - 0.7
+                    - 0.7
+                    - 0.7
+                    - 0.7
+                    opacityTo: 0.25
+                    stops:
+                    - 50
+                    - 100
+                dataLabels:
+                  enabled: false
+                legend:
+                  show: false
+                  position: bottom
+                  horizontalAlign: center
+                grid:
+                  show: true
+                  borderColor: rgba(144, 164, 174, 0.35)
+                  strokeDashArray: 0
+                  xaxis:
+                    lines:
+                      show: false
+                  yaxis:
+                    lines:
+                      show: true
+                markers:
+                  size: 0
+                  hover:
+                    size: 3
+                  colors: '#ff0000'
+                  fillOpacity: 0.5
+                  strokeWidth: 5
+                  strokeColors: '#ff0000'
+                  strokeOpacity: 0.15
+                  showNullDataPoints: false
+                tooltip:
+                  enabled: true
+                  shared: true
+                  enabledOnSeries:
+                  - 1
+                  - 2
+                  - 3
+                  marker:
+                    show: false
+                  x:
+                    show: false
+              yaxis:
+              - id: price
+                min: '${v_yaxis_min}'
+                max: '${v_yaxis_max}'
+                apex_config:
+                  title:
+                    text: ct/kWh
+                  decimalsInFloat: 0
+                  forceNiceScale: true
+                  showAlways: true
+                  tickAmount: 4
+              - id: highlight
+                min: 0
+                max: 1
+                show: false
+                opposite: true
+                apex_config:
+                  forceNiceScale: true
+                  tickAmount: 4
+              now:
+                show: true
+                color: '#8e24aa'
+                label: 🕒 LIVE
+              all_series_config:
+                float_precision: 2
+              series:
+              - entity: sensor.tibber_price_today
+                name: ▼ Best Price Period
+                type: area
+                color: rgba(46, 204, 113, 0.05)
+                yaxis_id: highlight
+                show:
+                  legend_value: false
+                  in_header: false
+                  in_legend: false
+                "data_generator": |-
+                  const response = await hass.callWS({ type: 'call_service', domain: 'tibber_prices', service: 'get_chartdata', return_response: true, service_data: { entry_id: '01KBJYHAESNQ4KKTMBCJ5PSK3A', period_filter: 'best_price', resolution: 'interval', output_format: 'array_of_arrays', insert_nulls: 'segments', subunit_currency: true, price_source: 'total' } }); const originalData = response.response.data; return originalData.map((point, i) => { const result = [point[0], point[1] === null ? null : 1]; result.originalPrice = point[1]; return result; });
+                stroke_width: 0
+              - entity: sensor.tibber_today_s_lowest_price
+                name: Low
+                type: area
+                color: '#2ecc71'
+                yaxis_id: price
+                show:
+                  legend_value: false
+                  in_header: raw
+                  in_legend: false
+                "data_generator": |-
+                  const response = await hass.callWS({ type: 'call_service', domain: 'tibber_prices', service: 'get_chartdata', return_response: true, service_data: { entry_id: '01KBJYHAESNQ4KKTMBCJ5PSK3A', rating_level_filter: ['LOW'], resolution: 'interval', output_format: 'array_of_arrays', insert_nulls: 'segments', subunit_currency: true, price_source: 'total', connect_segments: true } }); return response.response.data;
+                stroke_width: 1.5
+              - entity: sensor.tibber_price_today
+                name: Normal
+                type: area
+                color: '#f1c40f'
+                yaxis_id: price
+                show:
+                  legend_value: false
+                  in_header: false
+                  in_legend: false
+                "data_generator": |-
+                  const response = await hass.callWS({ type: 'call_service', domain: 'tibber_prices', service: 'get_chartdata', return_response: true, service_data: { entry_id: '01KBJYHAESNQ4KKTMBCJ5PSK3A', rating_level_filter: ['NORMAL'], resolution: 'interval', output_format: 'array_of_arrays', insert_nulls: 'segments', subunit_currency: true, price_source: 'total', connect_segments: true } }); return response.response.data;
+                stroke_width: 1.5
+              - entity: sensor.tibber_today_s_highest_price
+                name: High
+                type: area
+                color: '#e74c3c'
+                yaxis_id: price
+                show:
+                  legend_value: false
+                  in_header: raw
+                  in_legend: false
+                "data_generator": |-
+                  const response = await hass.callWS({ type: 'call_service', domain: 'tibber_prices', service: 'get_chartdata', return_response: true, service_data: { entry_id: '01KBJYHAESNQ4KKTMBCJ5PSK3A', rating_level_filter: ['HIGH'], resolution: 'interval', output_format: 'array_of_arrays', insert_nulls: 'segments', subunit_currency: true, price_source: 'total', connect_segments: true } }); return response.response.data;
+                stroke_width: 1.5
+              graph_span: null
+              span:
+                end: day
+                offset: '${v_offset}'
+            grid_options:
+              columns: 12
+              rows: 5
   # ── Rolläden ─────────────────────────────────────────────────────────────
   - title: Rolläden
     path: rolladen
