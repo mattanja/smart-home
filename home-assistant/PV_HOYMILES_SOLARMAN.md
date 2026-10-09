@@ -5,13 +5,15 @@
 | System | Host | Integration | Status |
 |--------|------|-------------|--------|
 | **Hoymiles** (WiFi DTU / HMS) | `192.168.57.104` (`espressif`) port **10081** | HACS custom [`hoymiles_wifi`](https://github.com/suaveolent/ha-hoymiles-wifi) | **Live** — AC/DC power, per-port Wh totals |
-| **Solarman** stick | `192.168.57.36` (`Dongle-M-94C8`) | HACS custom [`solarman`](https://github.com/davidrapan/ha-solarman) | **Blocked** — only TCP **80** open; local protocol needs **8899** |
+| **Solarman** WiFi module | DHCP often `192.168.57.89` — MAC **`28:9C:6E:82:E0:FE`** | HACS custom [`solarman`](https://github.com/davidrapan/ha-solarman) | Configured @ `.89:8899`; **host was offline** when last checked (stale ARP) — retry when module is up |
 
-These are separate plants/loggers (not duplicates of each other). Shelly **PV Mini Power Meter** remains an independent meter already used in the Energy dashboard.
+**Not Solarman:** Fritz host `Dongle-M-94C8` (`192.168.57.36`, MAC `1C:69:20:7F:94:C8`) is the **Zigbee** dongle — ignore for PV.
 
-## Install (already done on live `/config`)
+Shelly **PV Mini Power Meter** remains an independent meter already used in the Energy dashboard.
 
-Components live under `custom_components/` (gitignored, like other HACS installs):
+## Install (already on live `/config`)
+
+Components under `custom_components/` (gitignored, like other HACS installs):
 
 - `hoymiles_wifi` ← [suaveolent/ha-hoymiles-wifi](https://github.com/suaveolent/ha-hoymiles-wifi)
 - `solarman` ← [davidrapan/ha-solarman](https://github.com/davidrapan/ha-solarman)
@@ -26,21 +28,18 @@ For updates: add both as HACS **custom repositories** (category Integration), th
 
 Config entry host: `192.168.57.104`, update interval **35 s** (keep ≥ ~32 s so S-Miles cloud keeps working).
 
-## Solarman — unblock local access
+## Solarman — next steps when module is online
 
-1. Open logger UI: http://192.168.57.36/ (login; often `admin`/`admin` on older sticks — this stick uses a modern SPA).
-2. Prefer hidden page: http://192.168.57.36/config_hide.html → **Internal server** port → set **8899**, save/reboot.
-3. Confirm from HA host: TCP `192.168.57.36:8899` open.
-4. Settings → Devices & services → **Solarman PV** (entry may be in *Retry*): reload, or remove and re-add with host `.36`, port `8899`, profile **Auto** (or the matching Deye/Sofar YAML).
-5. Note logger **device serial** from the stick UI (not inverter SN) if the flow asks for it.
-
-Alternative if local port stays closed: Solarman cloud API (`service@solarmanpv.com` for `app_id` / `app_secret`) via ioBroker `solarmanpv` — not preferred while local HA is the goal.
+1. Confirm IP for MAC `28:9C:6E:82:E0:FE` (Fritz / `arp -a` / `ip neigh`). Prefer a **Fritz static DHCP lease**.
+2. Check local port: TCP **8899** (Solarman protocol). If only HTTP works, set internal server port via logger UI / `config_hide.html`.
+3. HA entry **Solarman PV** already points at `192.168.57.89` — reload when reachable, or reconfigure host if DHCP moved.
+4. Use profile **Auto** (or matching Deye/Sofar YAML). Logger **device serial** from stick UI if asked (not inverter SN).
 
 ## Energy dashboard
 
 - Keep existing Shelly PV Mini return sensor if it measures the same feed carefully (avoid double-counting).
 - Add Hoymiles port totals and/or a template sum once daytime values look right.
-- Add Solarman production sensors after 8899 works.
+- Add Solarman production sensors once the module answers on 8899.
 
 ## Related
 
