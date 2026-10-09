@@ -56,7 +56,7 @@ Local Hoymiles already works. Cloud helps for Solarman (module often offline loc
 
 | Need | What |
 |------|------|
-| App login | Vault item **Solarman** → `mattanja@kern.services` + password (Solarman Smart app) |
+| App login | Vault item **Solarman** — URI `androidapp://com.igen.xiaomaizhidian` (Solarman Smart), user `mattanja@kern.services` |
 | API keys | **appId + appSecret** — **not in vault**; request from Solarman (`customerservice@solarmanpv.com` / [API docs](https://doc.solarmanpv.com/en/Documentation%20and%20Quick%20Guide)) |
 | Device | Logger/inverter **serial** (from app) |
 | HA integration | [daspilker/home-assistant-solarman-api](https://github.com/daspilker/home-assistant-solarman-api) (HACS custom repo) |
