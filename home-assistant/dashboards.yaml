@@ -24,6 +24,10 @@ views:
         name: Joshua
         show_name: true
       - type: entity
+        entity: person.jara
+        name: Jara
+        show_name: true
+      - type: entity
         entity: sensor.house_total_power
         show_name: false
         color: amber
