@@ -14,6 +14,8 @@
 
 Shelly **PV Mini Power Meter** remains an independent meter already used in the Energy dashboard.
 
+**Ownership / meters:** Both mini-PVs (Shelly PV Mini + Hoymiles Garten / Solarman) are **private**. They belong on the **house / Immergrün** meter — **not** the separate **Tibber / Easee** company meter (kern.services). See Obsidian `Haus & Haushalt/Home-Assistant.md` § Electricity meters.
+
 ## Install (already on live `/config`)
 
 Components under `custom_components/` (gitignored, like other HACS installs):

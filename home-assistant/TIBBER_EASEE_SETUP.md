@@ -1,5 +1,17 @@
 # Tibber + Easee Charging Automation Setup Guide
 
+## Scope (meters & contracts)
+
+This stack is **only** for the **company** EV charging path:
+
+| | House (private) | Wallboxes (company) |
+|--|-----------------|---------------------|
+| Meter | Separate private meter | Dedicated meter for Easee only |
+| Contract | **Immergrün** (Eberdingen), from 2025-12-27: **30,67 ct/kWh** + **14,99 €/Monat** Grundpreis | **Tibber** on **kern.services** |
+| PV | Both mini-PVs (Shelly + Hoymiles/Solarman) are **private** → house meter | No PV on this meter |
+
+Do **not** use Tibber prices for house loads (dishwasher, Umwälzpumpe, …). Tibber automations = Easee only.
+
 ## Prerequisites
 
 ✅ HACS installed
