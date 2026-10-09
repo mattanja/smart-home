@@ -73,10 +73,9 @@ Local stick integration (`davidrapan/ha-solarman` @ MAC `28:9C:6E:82:E0:FE`) sta
 ## Energy dashboard
 
 - **Shelly PV Mini:** `sensor.pv_mini_power_meter_pv_mini_power_meter_total_returned`
-- **Hoymiles Garten:** `sensor.hoymiles_garten_total_energy` (template sum of 4 DC port totals) — added 2026-10-09
+- **Hoymiles Garten (cloud):** `sensor.hoymiles_station_garten_total_energy` — S-Miles total; **~90 days history backfilled** from cloud day data (2026-10-09)
+- Local template `sensor.hoymiles_garten_total_energy` still exists (port sum) but is not the Energy source (avoids double-count)
 - Solarman: add after local 8899 works (tomorrow)
-
-These are treated as separate solar sources (Garten Hoymiles + Shelly mini meter).
 
 ## Related
 
