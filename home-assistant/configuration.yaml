@@ -13,23 +13,8 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 mqtt: !include mqtt.yaml
 
-# Documentation: https://www.home-assistant.io/integrations/http/
-#http:
-#  server_port: 80
-http:
-  #server_port: 443
-  server_port: 8123
-  ssl_certificate: /config/letsencrypt/live/home-assistant.kernetics.de/fullchain.pem
-  ssl_key: /config/letsencrypt/live/home-assistant.kernetics.de/privkey.pem
-  #cors_allowed_origins:
-  #  - https://google.com
-  #  - https://www.home-assistant.io
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 46.4.77.5
-    - 188.245.108.134
-  ip_ban_enabled: true
-  login_attempts_threshold: 5
+# HTTP (SSL, proxies, IP ban) migrated to UI: Settings → System → Network
+# https://www.home-assistant.io/integrations/http/
 
 # 2022-01-05 Followed description
 # https://www.home-assistant.io/integrations/google_assistant/#yaml-configuration
