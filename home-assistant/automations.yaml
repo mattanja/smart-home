@@ -202,24 +202,43 @@
     data:
       action_command: start
       device_id: cf0d7e56b5d239172d13caec0b1afc1f
-  - action: notify.notify
-    metadata: {}
-    data:
-      title: 'Wallbox rechts gestartet '
-      message: 'Ladevorgang gestartet: {{ states(''sensor.tibber_hourly_price_current'')
+  - variables:
+      wallbox_title: Wallbox rechts gestartet
+      wallbox_message: >-
+        Ladevorgang gestartet: {{ states('sensor.tibber_hourly_price_current') }}
+        ct/kWh
+
+        Niedrigster Preis heute: {{ states('sensor.tibber_today_s_lowest_price') }}
+        ct/kWh
+
+        Niedrigster Preis morgen: {{ states('sensor.tibber_tomorrow_s_lowest_price')
         }} ct/kWh
 
-        Niedrigster Preis heute: {{ states(''sensor.tibber_today_s_lowest_price'')
-        }} ct/kWh
+        Trend (2h): {{ states('sensor.tibber_price_trend_2h') }}
 
-        Niedrigster Preis morgen: {{ states(''sensor.tibber_tomorrow_s_lowest_price'')
-        }} ct/kWh
-
-        Trend (2h): {{ states(''sensor.tibber_price_trend_2h'') }}
-
-        Volatility: {{ states(''sensor.tibber_today_s_price_volatility'') }}
-
-        '
+        Volatility: {{ states('sensor.tibber_today_s_price_volatility') }}
+  - parallel:
+    - action: notify.send_message
+      continue_on_error: true
+      target:
+        entity_id: notify.mattanjas_iphone
+      data:
+        title: '{{ wallbox_title }}'
+        message: '{{ wallbox_message }}'
+    - action: notify.send_message
+      continue_on_error: true
+      target:
+        entity_id: notify.mattanjas_pixel
+      data:
+        title: '{{ wallbox_title }}'
+        message: '{{ wallbox_message }}'
+    - action: notify.send_message
+      continue_on_error: true
+      target:
+        entity_id: notify.iphone_von_claudia
+      data:
+        title: '{{ wallbox_title }}'
+        message: '{{ wallbox_message }}'
   mode: single
 - id: '1766776400649'
   alias: Joshua Switch Lights off
