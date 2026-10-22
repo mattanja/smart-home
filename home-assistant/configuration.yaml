@@ -60,8 +60,13 @@ alexa:
 
 homeassistant:
   customize:
+    # Arbeitskontakt (IAS Zone); Roh-Entity bleibt versteckt, Dashboard nutzt fenster_zustand
     binary_sensor.fenster:
       hidden: true
+    # Ghost von ZHA/OnOff-Cluster – aktualisiert nie (bekannt bei TS0203); ausblenden
+    binary_sensor.tz3000_6zvw8ham_ts0203_opening:
+      hidden: true
+      friendly_name: "EG Eltern Balkontür Opening (defekt)"
 
 zha:
   enable_quirks: true

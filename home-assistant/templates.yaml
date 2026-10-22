@@ -1,9 +1,11 @@
 - binary_sensor:
+    # Spiegelt den funktionierenden IAS-Zone-Kontakt (binary_sensor.fenster).
+    # Nicht invertieren: fenster on = offen. Die Entity …_opening ist ein ZHA-Ghost und tot.
     - name: Fenster
       unique_id: fenster_window_state
       default_entity_id: binary_sensor.fenster_zustand
       device_class: window
-      state: "{{ is_state('binary_sensor.fenster', 'off') }}"
+      state: "{{ is_state('binary_sensor.fenster', 'on') }}"
       availability: "{{ states('binary_sensor.fenster') not in ('unknown', 'unavailable') }}"
 
 - sensor:

@@ -1,4 +1,10 @@
-"""Tuya TS0203 contact sensors."""
+"""Tuya TS0203 contact sensors.
+
+IAS Zone delivers the real open/closed state. The OnOff client cluster is only for
+binding and must not create a second Opening entity (that one stays stuck forever).
+Existing ghost entities (e.g. binary_sensor.*_opening) must be disabled manually;
+removing the cluster does not delete them from the entity registry.
+"""
 
 from zigpy.quirks.v2 import ClusterType, QuirkBuilder
 from zigpy.zcl.clusters.general import Groups, Identify, OnOff, Ota, Scenes, Time
@@ -13,6 +19,7 @@ from zhaquirks.tuya import TuyaPowerConfigurationCluster2AAA
     .replaces(TuyaPowerConfigurationCluster2AAA)
     .removes(Groups.cluster_id, cluster_type=ClusterType.Client)
     .removes(Scenes.cluster_id, cluster_type=ClusterType.Client)
+    # Prevents the non-functional duplicate Opening binary_sensor
     .removes(OnOff.cluster_id, cluster_type=ClusterType.Client)
     .removes(0x0008, cluster_type=ClusterType.Client)
     .removes(Time.cluster_id, cluster_type=ClusterType.Client)

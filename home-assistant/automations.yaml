@@ -365,3 +365,47 @@
         title: "{{ notify_title }}"
         message: "{{ notify_message }}"
   mode: single
+- id: '1792682704254'
+  alias: Eltern Dunstabzug bei Balkontür
+  description: Spiegelt den Balkontür-Kontakt auf die Steckdose EG Dunstabzugshaube.
+    Nutzt den aktuellen Sensorzustand (nicht den Trigger), mit 2s Entprellung und
+    Retry bei Zigbee-Timeout.
+  triggers:
+  - platform: state
+    entity_id: binary_sensor.fenster
+    to:
+    - 'on'
+    - 'off'
+    for:
+      seconds: 2
+  conditions:
+  - condition: template
+    value_template: '{{ states(''binary_sensor.fenster'') in [''on'', ''off''] }}'
+  actions:
+  - repeat:
+      count: 3
+      sequence:
+      - if:
+        - condition: state
+          entity_id: binary_sensor.fenster
+          state: 'on'
+        then:
+        - action: switch.turn_on
+          continue_on_error: true
+          target:
+            entity_id: switch.steckdose_licht_wohnzimmer_switch
+        else:
+        - action: switch.turn_off
+          continue_on_error: true
+          target:
+            entity_id: switch.steckdose_licht_wohnzimmer_switch
+      - delay:
+          seconds: 2
+      - if:
+        - condition: template
+          value_template: '{{ (is_state(''binary_sensor.fenster'', ''on'') and is_state(''switch.steckdose_licht_wohnzimmer_switch'',
+            ''on'')) or (is_state(''binary_sensor.fenster'', ''off'') and is_state(''switch.steckdose_licht_wohnzimmer_switch'',
+            ''off'')) }}'
+        then:
+        - stop: Steckdose entspricht Tür
+  mode: restart
