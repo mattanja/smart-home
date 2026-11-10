@@ -27,3 +27,75 @@
              'sensor.inverter_port_3_dc_total_energy',
              'sensor.inverter_port_4_dc_total_energy'
            ) | selectattr('state', 'in', ['unknown', 'unavailable']) | list | count == 0 }}
+
+    # Local daily sum (replaces cloud sensor.hoymiles_station_garten_daily_energy)
+    - name: Hoymiles Garten daily energy
+      unique_id: hoymiles_garten_daily_energy
+      unit_of_measurement: Wh
+      device_class: energy
+      state_class: total_increasing
+      state: >-
+        {% set p1 = states('sensor.inverter_port_1_dc_daily_energy') | float(0) %}
+        {% set p2 = states('sensor.inverter_port_2_dc_daily_energy') | float(0) %}
+        {% set p3 = states('sensor.inverter_port_3_dc_daily_energy') | float(0) %}
+        {% set p4 = states('sensor.inverter_port_4_dc_daily_energy') | float(0) %}
+        {{ (p1 + p2 + p3 + p4) | round(0) }}
+      availability: >-
+        {{ expand(
+             'sensor.inverter_port_1_dc_daily_energy',
+             'sensor.inverter_port_2_dc_daily_energy',
+             'sensor.inverter_port_3_dc_daily_energy',
+             'sensor.inverter_port_4_dc_daily_energy'
+           ) | selectattr('state', 'in', ['unknown', 'unavailable']) | list | count == 0 }}
+
+    # ── 3-phase Shelly energy totals (kWh) — sources for monthly/yearly utility meters
+    - name: House energy total
+      unique_id: house_energy_total
+      unit_of_measurement: kWh
+      device_class: energy
+      state_class: total_increasing
+      state: >-
+        {% set p0 = states('sensor.house_power_phase_0_energy') | float(0) %}
+        {% set p1 = states('sensor.house_power_phase_1_energy') | float(0) %}
+        {% set p2 = states('sensor.house_power_phase_2_energy') | float(0) %}
+        {{ ((p0 + p1 + p2) / 1000) | round(3) }}
+      availability: >-
+        {{ expand(
+             'sensor.house_power_phase_0_energy',
+             'sensor.house_power_phase_1_energy',
+             'sensor.house_power_phase_2_energy'
+           ) | selectattr('state', 'in', ['unknown', 'unavailable']) | list | count == 0 }}
+
+    - name: EG energy total
+      unique_id: eg_energy_total
+      unit_of_measurement: kWh
+      device_class: energy
+      state_class: total_increasing
+      state: >-
+        {% set p0 = states('sensor.eg_power_meter_eg_power_phase_0_energy') | float(0) %}
+        {% set p1 = states('sensor.eg_power_meter_eg_power_phase_1_energy') | float(0) %}
+        {% set p2 = states('sensor.eg_power_meter_eg_power_phase_2_energy') | float(0) %}
+        {{ ((p0 + p1 + p2) / 1000) | round(3) }}
+      availability: >-
+        {{ expand(
+             'sensor.eg_power_meter_eg_power_phase_0_energy',
+             'sensor.eg_power_meter_eg_power_phase_1_energy',
+             'sensor.eg_power_meter_eg_power_phase_2_energy'
+           ) | selectattr('state', 'in', ['unknown', 'unavailable']) | list | count == 0 }}
+
+    - name: OG energy total
+      unique_id: og_energy_total
+      unit_of_measurement: kWh
+      device_class: energy
+      state_class: total_increasing
+      state: >-
+        {% set p0 = states('sensor.og_power_meter_og_power_phase_0_energy') | float(0) %}
+        {% set p1 = states('sensor.og_power_meter_og_power_phase_1_energy') | float(0) %}
+        {% set p2 = states('sensor.og_power_meter_og_power_phase_2_energy') | float(0) %}
+        {{ ((p0 + p1 + p2) / 1000) | round(3) }}
+      availability: >-
+        {{ expand(
+             'sensor.og_power_meter_og_power_phase_0_energy',
+             'sensor.og_power_meter_og_power_phase_1_energy',
+             'sensor.og_power_meter_og_power_phase_2_energy'
+           ) | selectattr('state', 'in', ['unknown', 'unavailable']) | list | count == 0 }}

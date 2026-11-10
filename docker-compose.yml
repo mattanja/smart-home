@@ -1,12 +1,13 @@
 ###
 # Full installation of Home-Automation with the following components:
 # - Home-Assistant (https://www.home-assistant.io/) to view and control all devices
-# - ioBroker (https://www.iobroker.net/) to automate some additional devices and to broker data from Cloud services into Mosquitto and Home-Assistant
+# - ioBroker (https://www.iobroker.net/) — Fiat/Telegram until migrated; safe to keep
 # - Mosquitto (https://mosquitto.org/) as MQTT broker
-# - Node-Red (https://nodered.org/) to create flows
-# - InfluxDB (https://www.influxdata.com/) to store data
-# - Telegraf (https://www.influxdata.com/time-series-platform/telegraf/) to collect data into InfluxDB
-# - Grafana (https://grafana.com/) to visualize data
+# - Node-Red (via ioBroker) for legacy flows
+#
+# Removed 2026-11-10: InfluxDB + Telegraf + Grafana (unused dashboards; HA utility meters
+# cover month/year energy). Data dirs ./influxdb ./grafana ./telegraf kept on disk until
+# manually deleted. Historical kWh: Obsidian «Stromverbrauch Monat Jahr».
 
 networks:
   default:
@@ -27,47 +28,13 @@ services:
     environment:
       - TZ=${TIMEZONE}
 
-  mosquitto-management-center:
-    image: cedalo/management-center:dev
-    container_name: mosquitto-management-center
-    restart: always
-    ports: 
-      - 8088:8088
-    environment:
-      - CEDALO_MC_BROKER_ID=mosquitto
-      - CEDALO_MC_BROKER_NAME=Mosquitto
-      - CEDALO_MC_BROKER_URL=mqtt://mosquitto:1883
-      - CEDALO_MC_BROKER_USERNAME=${MOSQUITTO_ADMIN}
-      - CEDALO_MC_BROKER_PASSWORD=${MOSQUITTO_ADMIN_PASSWORD}
-      - CEDALO_MC_USERNAME=${CEDALO_MC_USERNAME}
-      - CEDALO_MC_PASSWORD=${CEDALO_MC_PASSWORD}
-
-  influxdb:
-    image: influxdb:2
-    container_name: influxdb
-    restart: always
-    volumes:
-      - ./influxdb:/var/lib/influxdb2:rw
-    ports:
-      - "8086:8086"
-
-  telegraf:
-    image: telegraf:1.40.1
-    container_name: telegraf
-    restart: always
-    links:
-      - influxdb
-    volumes:
-      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
-    environment:
-      - INFLUX_TOKEN=${INFLUX_TOKEN}
-      - MQTT_TELEGRAF_CLIENTID=${MQTT_TELEGRAF_CLIENTID}
-      - MQTT_TELEGRAF_USERNAME=${MQTT_TELEGRAF_USERNAME}
-      - MQTT_TELEGRAF_PASSWORD=${MQTT_TELEGRAF_PASSWORD}
+  # Cedalo Management Center removed 2026-11-10: unused (:dev), no license key, only log spam.
+  # Mosquitto itself stays. Re-add a pinned cedalo/management-center:2.6.4 if needed later.
 
   homeassistant:
     # Prefer explicit version over :stable for rollback (record old image id before upgrades)
-    image: ghcr.io/home-assistant/home-assistant:2026.10.0
+    # Rollback: previous image id sha256:e5ee66f11f90… (tag 2026.10.0), recorded 2026-11-10
+    image: ghcr.io/home-assistant/home-assistant:2026.11.1
     container_name: homeassistant
     restart: always
     privileged: true
@@ -80,7 +47,9 @@ services:
       - TZ=Europe/Berlin
 
   iobroker:
-    image: iobroker/iobroker:latest  # TODO: pin after checking adapter compatibility
+    # Pinned 2026-11-10 to the digest that was running as :latest (js-controller/ioBroker 6.0.9).
+    # Prefer digest over :latest so QNAP recreates do not silently float.
+    image: iobroker/iobroker@sha256:0a48074cd9dbef6cab285d5b9f39d7af52c28731c37972b74287abecce593fc1
     container_name: iobroker
     restart: always
     hostname: iobroker
@@ -92,28 +61,3 @@ services:
       - "1880:1880"
     volumes:
       - ./iobroker:/opt/iobroker
-
-  grafana:
-    image: grafana/grafana-oss:9.2.0
-    container_name: grafana
-    restart: always
-    volumes:
-      - ./grafana:/var/lib/grafana:rw
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_PATHS_CONFIG=/var/lib/grafana/grafana.ini
-
-  # loki:
-  #   image: grafana/loki:2.5.0
-  #   container_name: loki
-  #   ports:
-  #     - "3100:3100"
-  #   command: -config.file=/etc/loki/local-config.yaml
-
-  # promtail:
-  #   image: grafana/promtail:2.5.0
-  #   container_name: promtail
-  #   volumes:
-  #     - /var/log:/var/log
-  #   command: -config.file=/etc/promtail/config.yml

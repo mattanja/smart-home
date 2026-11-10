@@ -122,14 +122,14 @@ views:
               columns: 12
               rows: 2
           - type: tile
-            entity: sensor.hoymiles_station_garten_current_power
+            entity: sensor.inverter_ac_power
             name: Hoymiles Garten
             icon: mdi:solar-power-variant
             color: yellow
             grid_options:
               columns: 6
           - type: tile
-            entity: sensor.hoymiles_station_garten_daily_energy
+            entity: sensor.hoymiles_garten_daily_energy
             name: Heute Garten
             icon: mdi:solar-power
             color: yellow
@@ -141,7 +141,14 @@ views:
             icon: mdi:solar-panel
             color: yellow
             grid_options:
-              columns: 12
+              columns: 6
+          - type: tile
+            entity: sensor.pv_mini_daily_energy
+            name: PV Mini heute
+            icon: mdi:solar-power
+            color: yellow
+            grid_options:
+              columns: 6
           - type: tile
             entity: sensor.og_power_meter_og_power_phase_0_power
             name: OG L1
@@ -303,7 +310,25 @@ views:
                 show_name: false
           - type: tile
             entity: light.josh_led_lampe_light
-            name: LED Lampe
+            name: Decke
+            features_position: bottom
+            features:
+              - type: light-brightness
+            grid_options:
+              columns: 6
+              rows: 2
+          - type: tile
+            entity: light.joshua_bed
+            name: LED 5m
+            features_position: bottom
+            features:
+              - type: light-brightness
+            grid_options:
+              columns: 6
+              rows: 2
+          - type: tile
+            entity: light.joshua_dart
+            name: Dart
             features_position: bottom
             features:
               - type: light-brightness
@@ -852,6 +877,11 @@ views:
             features:
               - type: cover-open-close
           - type: tile
+            entity: cover.dg_bad_links
+            name: Bad L
+            features:
+              - type: cover-open-close
+          - type: tile
             entity: cover.dg_bad_rechts
             name: Bad R
             features:
@@ -1068,7 +1098,25 @@ views:
             heading_style: title
           - type: tile
             entity: light.josh_led_lampe_light
-            name: LED Lampe
+            name: Decke
+            features_position: bottom
+            features:
+              - type: light-brightness
+            grid_options:
+              columns: 6
+              rows: 2
+          - type: tile
+            entity: light.joshua_bed
+            name: LED 5m
+            features_position: bottom
+            features:
+              - type: light-brightness
+            grid_options:
+              columns: 6
+              rows: 2
+          - type: tile
+            entity: light.joshua_dart
+            name: Dart
             features_position: bottom
             features:
               - type: light-brightness
@@ -1110,12 +1158,73 @@ views:
       - type: grid
         cards:
           - type: heading
+            heading: Verbrauch Monat / Jahr
+            heading_style: title
+            icon: mdi:chart-bar
+          - type: heading
+            heading: Haus (Gesamt)
+            heading_style: subtitle
+          - type: tile
+            entity: sensor.house_energy_monthly
+            name: Monat
+            icon: mdi:calendar-month
+            color: amber
+            grid_options:
+              columns: 6
+          - type: tile
+            entity: sensor.house_energy_yearly
+            name: Jahr
+            icon: mdi:calendar
+            color: amber
+            grid_options:
+              columns: 6
+          - type: heading
+            heading: OG (unsere Wohnung)
+            heading_style: subtitle
+          - type: tile
+            entity: sensor.og_energy_monthly
+            name: Monat
+            icon: mdi:calendar-month
+            color: blue
+            grid_options:
+              columns: 6
+          - type: tile
+            entity: sensor.og_energy_yearly
+            name: Jahr
+            icon: mdi:calendar
+            color: blue
+            grid_options:
+              columns: 6
+          - type: heading
+            heading: EG (Eltern)
+            heading_style: subtitle
+          - type: tile
+            entity: sensor.eg_energy_monthly
+            name: Monat
+            icon: mdi:calendar-month
+            color: green
+            grid_options:
+              columns: 6
+          - type: tile
+            entity: sensor.eg_energy_yearly
+            name: Jahr
+            icon: mdi:calendar
+            color: green
+            grid_options:
+              columns: 6
+          - type: markdown
+            content: |
+              **Monat / Jahr** = Utility Meter (kalibriert). Historie vor 2026-11: Obsidian-Notiz *Stromverbrauch Monat Jahr*.
+            grid_options:
+              columns: 12
+
+          - type: heading
             heading: Haus (Immergrün / privat)
             heading_style: title
             icon: mdi:home-lightning-bolt
           - type: tile
             entity: sensor.house_total_power
-            name: Gesamt
+            name: Leistung jetzt
             color: amber
             features:
               - type: trend-graph
@@ -1123,6 +1232,12 @@ views:
             grid_options:
               columns: 12
               rows: 2
+          - type: tile
+            entity: sensor.house_energy_total
+            name: Zählerstand
+            color: amber
+            grid_options:
+              columns: 12
           - type: tile
             entity: sensor.house_power_phase0_power
             name: L1
@@ -1139,7 +1254,7 @@ views:
             grid_options:
               columns: 4
           - type: heading
-            heading: OG / EG
+            heading: OG / EG Leistung
           - type: tile
             entity: sensor.og_power_meter_og_power_phase_0_power
             name: OG L1
@@ -1166,7 +1281,7 @@ views:
             heading_style: title
             icon: mdi:solar-power-variant
           - type: tile
-            entity: sensor.hoymiles_station_garten_current_power
+            entity: sensor.inverter_ac_power
             name: Hoymiles Leistung
             color: yellow
             features:
@@ -1176,13 +1291,13 @@ views:
               columns: 12
               rows: 2
           - type: tile
-            entity: sensor.hoymiles_station_garten_daily_energy
+            entity: sensor.hoymiles_garten_daily_energy
             name: Heute
             color: yellow
             grid_options:
               columns: 6
           - type: tile
-            entity: sensor.hoymiles_station_garten_total_energy
+            entity: sensor.hoymiles_garten_total_energy
             name: Gesamt
             color: yellow
             grid_options:
@@ -1192,7 +1307,13 @@ views:
             name: PV Mini Leistung
             color: yellow
             grid_options:
-              columns: 12
+              columns: 6
+          - type: tile
+            entity: sensor.pv_mini_daily_energy
+            name: PV Mini heute
+            color: yellow
+            grid_options:
+              columns: 6
           - type: heading
             heading: Wallbox (Tibber / Firma)
             heading_style: title

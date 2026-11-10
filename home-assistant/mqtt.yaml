@@ -62,9 +62,9 @@
     command_topic: shellies/OG-TV-1PM/relay/0/command
     payload_on: "on"
     payload_off: "off"
-    optimistic: true
+    optimistic: false
     qos: 0
-    retain: true
+    retain: false
     device:
       name: "OG TV"
       identifiers:
@@ -558,7 +558,8 @@
     state_on: true
     state_off: false
     command_topic: shellies/warmwasser/rpc
-    payload_on: '{"id":1, "src": "homeassistant", "method": "Switch.Set", "params":{"id":0,"on":true,"toggle_after":1200}}'
+    # Kein toggle_after: Zeitfenster laufen dauerhaft; manuelles Auto-Aus nach 30 Min steuert die HA-Automation
+    payload_on: '{"id":1, "src": "homeassistant", "method": "Switch.Set", "params":{"id":0,"on":true}}'
     payload_off: '{"id":1, "src": "homeassistant", "method": "Switch.Set", "params":{"id":0,"on":false}}'
     device:
       name: "Warmwasser Zirkulation"

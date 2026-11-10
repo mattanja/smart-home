@@ -1,59 +1,3 @@
-- id: christmas_lighting_schedule
-  alias: Weihnachtsbeleuchtung Zeitplan
-  description: Automatische Steuerung der Weihnachtsbeleuchtung nach Zeitplan
-  triggers:
-  - at: 06:00:00
-    id: turn_on_morning
-    trigger: time
-  - at: '11:00:00'
-    id: turn_off_morning
-    trigger: time
-  - at: '16:00:00'
-    id: turn_on_evening
-    trigger: time
-  - at: '22:30:00'
-    id: turn_off_evening
-    trigger: time
-  conditions: []
-  actions:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: turn_on_morning
-      sequence:
-      - action: scene.turn_on
-        metadata: {}
-        data: {}
-        target:
-          entity_id: scene.weihnachtsbeleuchtung_an
-    - conditions:
-      - condition: trigger
-        id: turn_off_morning
-      sequence:
-      - action: scene.turn_on
-        metadata: {}
-        data: {}
-        target:
-          entity_id: scene.weihnachtsbeleuchtung_aus
-    - conditions:
-      - condition: trigger
-        id: turn_on_evening
-      sequence:
-      - action: scene.turn_on
-        metadata: {}
-        data: {}
-        target:
-          entity_id: scene.weihnachtsbeleuchtung_an
-    - conditions:
-      - condition: trigger
-        id: turn_off_evening
-      sequence:
-      - action: scene.turn_on
-        metadata: {}
-        data: {}
-        target:
-          entity_id: scene.weihnachtsbeleuchtung_aus
-  mode: single
 - id: blinds_morning_tilt
   alias: Jalousien morgens kippen
   description: Kippt die Jalousien um 06:15 für Morgenlicht
@@ -192,6 +136,9 @@
     - 'on'
   conditions: []
   actions:
+  - action: switch.turn_on
+    target:
+      entity_id: switch.wallbox_rechts_charger_enabled
   - action: easee.action_command
     metadata: {}
     data:
@@ -204,31 +151,23 @@
       device_id: cf0d7e56b5d239172d13caec0b1afc1f
   - variables:
       wallbox_title: Wallbox rechts gestartet
-      wallbox_message: >-
-        Ladevorgang gestartet: {{ states('sensor.tibber_hourly_price_current') }}
-        ct/kWh
-
-        Niedrigster Preis heute: {{ states('sensor.tibber_today_s_lowest_price') }}
-        ct/kWh
-
-        Niedrigster Preis morgen: {{ states('sensor.tibber_tomorrow_s_lowest_price')
+      wallbox_message: 'Ladevorgang gestartet: {{ states(''sensor.tibber_hourly_price_current'')
         }} ct/kWh
 
-        Trend (2h): {{ states('sensor.tibber_price_trend_2h') }}
+        Niedrigster Preis heute: {{ states(''sensor.tibber_today_s_lowest_price'')
+        }} ct/kWh
 
-        Volatility: {{ states('sensor.tibber_today_s_price_volatility') }}
+        Niedrigster Preis morgen: {{ states(''sensor.tibber_tomorrow_s_lowest_price'')
+        }} ct/kWh
+
+        Trend (2h): {{ states(''sensor.tibber_price_trend_2h'') }}
+
+        Volatility: {{ states(''sensor.tibber_today_s_price_volatility'') }}'
   - parallel:
     - action: notify.send_message
       continue_on_error: true
       target:
         entity_id: notify.mattanjas_iphone
-      data:
-        title: '{{ wallbox_title }}'
-        message: '{{ wallbox_message }}'
-    - action: notify.send_message
-      continue_on_error: true
-      target:
-        entity_id: notify.mattanjas_pixel
       data:
         title: '{{ wallbox_title }}'
         message: '{{ wallbox_message }}'
@@ -291,79 +230,45 @@
       entity_id: scene.joshua_lights_purple
     data: {}
   mode: single
-- id: '1767187480054'
-  alias: Weihnachtsbeleuchtung Eltern on
-  description: ''
-  triggers:
-  - trigger: time
-    at: 06:00:00
-  - trigger: time
-    at: '17:00:00'
-  conditions: []
-  actions:
-  - type: turn_on
-    device_id: 0f098af86c206a83c4b78dd96039c23e
-    entity_id: 3638d8b6aeb8a1283035114a0818bbf8
-    domain: switch
-  mode: single
-- id: '1767187549977'
-  alias: Weihnachtsbeleuchtung Eltern off
-  description: ''
-  triggers:
-  - trigger: time
-    at: 08:00:00
-  - trigger: time
-    at: '22:30:00'
-  conditions: []
-  actions:
-  - type: turn_off
-    device_id: 0f098af86c206a83c4b78dd96039c23e
-    entity_id: 3638d8b6aeb8a1283035114a0818bbf8
-    domain: switch
-  mode: single
 - id: tv_power_notifications
   alias: Fernseher an/aus Benachrichtigung
-  description: >-
-    Migriert von ioBroker script.js.common.Home (Telegram).
-    Shelly OG-TV-1PM Leistung > 35 W gilt als eingeschaltet.
+  description: 'Migriert von ioBroker script.js.common.Home (Telegram). Leistung mit
+    Hysterese: an > 40 W, aus < 15 W, jeweils 1 Min stabil (kurze Dips beim Bildinhalt
+    sollen keine Falsch-Meldungen auslösen).'
   triggers:
   - trigger: numeric_state
     entity_id: sensor.og_tv_power
-    above: 35
+    above: 40
+    for:
+      minutes: 1
     id: turned_on
   - trigger: numeric_state
     entity_id: sensor.og_tv_power
-    below: 35
+    below: 15
+    for:
+      minutes: 1
     id: turned_off
   conditions: []
   actions:
   - variables:
       notify_title: Fernseher
-      notify_message: >-
-        {% if trigger.id == "turned_on" %}Fernseher eingeschaltet!{% else %}Fernseher
-        ausgeschaltet.{% endif %}
+      notify_message: '{% if trigger.id == "turned_on" %}Fernseher eingeschaltet!{%
+        else %}Fernseher ausgeschaltet.{% endif %}'
   - parallel:
     - action: notify.send_message
       continue_on_error: true
       target:
         entity_id: notify.mattanjas_iphone
       data:
-        title: "{{ notify_title }}"
-        message: "{{ notify_message }}"
-    - action: notify.send_message
-      continue_on_error: true
-      target:
-        entity_id: notify.mattanjas_pixel
-      data:
-        title: "{{ notify_title }}"
-        message: "{{ notify_message }}"
+        title: '{{ notify_title }}'
+        message: '{{ notify_message }}'
     - action: notify.send_message
       continue_on_error: true
       target:
         entity_id: notify.iphone_von_claudia
       data:
-        title: "{{ notify_title }}"
-        message: "{{ notify_message }}"
+        title: '{{ notify_title }}'
+        message: '{{ notify_message }}'
   mode: single
 - id: '1792682704254'
   alias: Eltern Dunstabzug bei Balkontür
@@ -409,3 +314,108 @@
         then:
         - stop: Steckdose entspricht Tür
   mode: restart
+- id: '1794293339858'
+  alias: Warmwasser Zirkulation Auto-Aus 30 Min
+  description: 'Außerhalb der Zeitfenster (05:45–08:00, 19:30–22:00): nach manuellem
+    Einschalten über das Dashboard nach 30 Minuten wieder ausschalten.'
+  triggers:
+  - platform: state
+    entity_id: switch.warmwasser_zirkulation_warmwasser_zirkulation
+    to: 'on'
+    for:
+      minutes: 30
+  conditions:
+  - condition: template
+    value_template: '{% set mins = now().hour * 60 + now().minute %}{{ not ((5*60+45
+      <= mins < 8*60) or (19*60+30 <= mins < 22*60)) }}'
+  actions:
+  - action: switch.turn_off
+    target:
+      entity_id: switch.warmwasser_zirkulation_warmwasser_zirkulation
+  mode: single
+- id: '1794293351039'
+  alias: Warmwasser Zirkulation Zeitplan
+  description: Umwälzpumpe an 05:45-08:00 und 19:30-22:00. Ohne Shelly-toggle_after,
+    damit sie im Fenster dauerhaft laeuft. Bei HA-Start im Fenster nachziehen.
+  triggers:
+  - id: morning_on
+    platform: time
+    at: 05:45:00
+  - id: morning_off
+    platform: time
+    at: 08:00:00
+  - id: evening_on
+    platform: time
+    at: '19:30:00'
+  - id: evening_off
+    platform: time
+    at: '22:00:00'
+  - id: ha_start
+    platform: homeassistant
+    event: start
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - morning_on
+        - evening_on
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.warmwasser_zirkulation_warmwasser_zirkulation
+    - conditions:
+      - condition: trigger
+        id:
+        - morning_off
+        - evening_off
+      sequence:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.warmwasser_zirkulation_warmwasser_zirkulation
+    - conditions:
+      - condition: trigger
+        id: ha_start
+      - condition: template
+        value_template: '{% set mins = now().hour * 60 + now().minute %}{{ (5*60+45
+          <= mins < 8*60) or (19*60+30 <= mins < 22*60) }}'
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.warmwasser_zirkulation_warmwasser_zirkulation
+  mode: queued
+  max: 5
+
+- id: "1700759472567"
+  alias: Weihnachtsbeleuchtung Zeitplan
+  description: Steckdose 01/02 via Szenen. An 16:30, aus 23:00, morgens aus 08:00 (Alt 11:00). Außerhalb Saison Automation deaktivieren.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "16:30:00"
+      id: evening_on
+    - trigger: time
+      at: "23:00:00"
+      id: night_off
+    - trigger: time
+      at: "08:00:00"
+      id: morning_off
+  conditions: []
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: evening_on
+          sequence:
+            - action: scene.turn_on
+              target:
+                entity_id: scene.weihnachtsbeleuchtung_an
+        - conditions:
+            - condition: trigger
+              id:
+                - night_off
+                - morning_off
+          sequence:
+            - action: scene.turn_on
+              target:
+                entity_id: scene.weihnachtsbeleuchtung_aus

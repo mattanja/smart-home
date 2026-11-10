@@ -466,6 +466,27 @@
       friendly_name: Joshua Dart
       supported_features: 32
       state: 'off'
+    light.joshua_bed:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Joshua LED 5m
+      supported_features: 44
+      state: 'off'
   icon: mdi:lightbulb-off
   metadata: {}
 - id: '1766776919001'
@@ -527,6 +548,35 @@
       friendly_name: Joshua Dart
       supported_features: 32
       state: 'on'
+    light.joshua_bed:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 204
+      color_temp_kelvin: 3984
+      color_temp: 251
+      hs_color:
+      - 26.819
+      - 35.161
+      rgb_color:
+      - 255
+      - 205
+      - 165
+      xy_color:
+      - 0.421
+      - 0.365
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Joshua LED 5m
+      supported_features: 44
+      state: 'on'
   icon: mdi:lightbulb
   metadata: {}
 - id: '1766778193930'
@@ -587,6 +637,35 @@
       - 0.21
       friendly_name: Joshua Dart
       supported_features: 32
+      state: 'on'
+    light.joshua_bed:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 254
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Joshua LED 5m
+      supported_features: 44
       state: 'on'
   icon: mdi:lightbulb-on-60
   metadata: {}

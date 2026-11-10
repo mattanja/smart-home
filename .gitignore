@@ -40,3 +40,9 @@ _secret/
 *.lock
 *.log
 *.log.*
+
+# staged root-only files for borg (contains auth)
+home-assistant/.borg-extra/
+home-assistant/backups/
+home-assistant/_component_backups/
+home-assistant/zha_nwk_backup_*.json

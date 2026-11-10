@@ -1,0 +1,45 @@
+# Cycle meters from total_increasing energy sensors
+# Shelly totals never reset → periodically_resetting: false
+
+pv_mini_daily_energy:
+  source: sensor.pv_mini_power_meter_pv_mini_power_meter_total_returned
+  name: PV Mini daily energy
+  cycle: daily
+  periodically_resetting: false
+
+# Haus (Gesamt) / EG (Eltern) / OG (unsere Wohnung) — Monat & Jahr
+house_energy_monthly:
+  source: sensor.house_energy_total
+  name: House energy monthly
+  cycle: monthly
+  periodically_resetting: false
+
+house_energy_yearly:
+  source: sensor.house_energy_total
+  name: House energy yearly
+  cycle: yearly
+  periodically_resetting: false
+
+eg_energy_monthly:
+  source: sensor.eg_energy_total
+  name: EG energy monthly
+  cycle: monthly
+  periodically_resetting: false
+
+eg_energy_yearly:
+  source: sensor.eg_energy_total
+  name: EG energy yearly
+  cycle: yearly
+  periodically_resetting: false
+
+og_energy_monthly:
+  source: sensor.og_energy_total
+  name: OG energy monthly
+  cycle: monthly
+  periodically_resetting: false
+
+og_energy_yearly:
+  source: sensor.og_energy_total
+  name: OG energy yearly
+  cycle: yearly
+  periodically_resetting: false
